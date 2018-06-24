@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { WorkingCard, EquipCard, MaterialCard, CheckInCard, FaultCard } from './ReportCard';
 import { DatePicker, Button, Table, Input, Modal, message, Select } from 'antd';
 import { actions, InitState, DataType } from './ReportsRedux';
+import { url } from '../../utils/http';
 import './Reports.scss';
 const { RangePicker } = DatePicker;
 const Option = Select.Option;
@@ -1006,7 +1007,13 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
   handleSubmit = () => {
     /** 导出报表 */
     const { screenshot } = this.props;
-    screenshot(document.querySelector('.reports-review').outerHTML);
+    
+    (screenshot(document.querySelector('.reports-review').outerHTML) as any).then(data => {
+      debugger
+      if(!data.errMsg) {
+        window.open(`${url}/download`, '_blank');
+      }
+    });
 
     this.closeReview();
   }
