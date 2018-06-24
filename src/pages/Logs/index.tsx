@@ -1,16 +1,13 @@
 import * as React from 'react';
 import './Logs.scss';
-import * as TITLEICON from '../../img/icons-11.png';
-import { getLogs } from './LogsRedux.tsx';
+import { getLogs } from './LogsRedux';
 
 export default class Logs extends React.Component {
-	constructor(props) {
-		super();
-		this.state = {
-			logs: [
+
+	state = {
+		logs: [
 				
-			]
-		}
+		]
 	}
 
 	componentDidMount() {
@@ -23,7 +20,7 @@ export default class Logs extends React.Component {
     return (
 	    <div className="logs">
 	    	<ul className="content">
-	    		{logs.map((log, key) => return <li key={log.id}>{log.content}</li>)}		
+	    		{logs.map((log, key) => <li key={log.id}>{log.content}</li>)}		
 	    	</ul>	    
 	    </div>
     	

@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { browserHistory, RouteComponentProps } from 'react-router';
 import { Menu, Icon, Avatar, Popover } from 'antd';
+import { env } from '../../utils/isLogin';
 import './Frame.scss';
+/* tslint:disable */
 import * as METAIMG from '../../img/icons-11.png';
 import * as REPORTIMG from '../../img/icons-12.png';
 import * as LOGIMG from '../../img/icons-13.png';
@@ -19,14 +21,24 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
       }
     }
   }
+
+  componentWillMount() {
+    if (!env.logStatus) {
+      browserHistory.push('/login');
+    }
+  }
   handleRouting = item => {
     // this.setState()
     browserHistory.push(item.key);
   }
 
+  handleLogout = () => {
+    browserHistory.push('/login');
+  }
+
   renderAvatar = () => {
-    return <div>
-      <Icon type="logout" />注销
+    return <div style={{width: 55, cursor: 'pointer'}} onClick={this.handleLogout}>
+      <Icon type="logout"/>注销
     </div>
   }
 
@@ -35,7 +47,7 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
     let typeList = Object.entries(types);
     let menus = [];
       typeList.map(type => {
-        menus.push(<Menu.Item key={type[0]}><Icon type={type[1].icon_type} />{type[1].title}</Menu.Item>)
+        menus.push(<Menu.Item key={type[0]}><Icon type={types && type[1].icon_type} />{types && type[1].title}</Menu.Item>)
       })
     return menus;
   }
@@ -51,13 +63,13 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
       <div className="content">
         <div className="header">
           <Popover placement="bottomRight" content={this.renderAvatar()}>
-            <Avatar icon="user" style={{marginLeft: 'auto', marginRight: 20}}/>
+            <Avatar icon="user" style={{marginLeft: 'auto', marginRight: 20, marginTop: 15, float: 'right'}}/>
           </Popover>
         </div>
         <div className="container">
           <div className="container-title">
-            <img src={this.state.types[pathname].title_icon} />
-            <span className="container-title">{this.state.types[pathname].title}</span>
+            <img src={this.state.types[pathname] && this.state.types[pathname].title_icon} />
+            <span className="container-title">{this.state.types[pathname] && this.state.types[pathname].title}</span>
           </div>
           {this.props.children}
         </div>

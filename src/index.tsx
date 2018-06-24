@@ -7,12 +7,12 @@ import { Router, Route, browserHistory, IndexRoute, Redirect } from 'react-route
 import { Login, Reports, Frame, Logs } from './pages';
 import { reducer as LoginReducer } from '../src/pages/Login/LoginRedux';
 import { reducer as ReportsReducer } from '../src/pages/Reports/ReportsRedux';
-import { checkAuth } from './utils/isLogin.ts';
 import thunk from 'redux-thunk';
+import { env } from 'src/utils/isLogin';
 import './app.scss';
 import 'antd/dist/antd.css';
 
-export var logStatus = false
+export var logStatus = false;
 
 const reducers = combineReducers({
   routing: routerReducer,
@@ -24,8 +24,6 @@ const store = createStore(reducers, applyMiddleware(thunk));
 const history = syncHistoryWithStore(browserHistory, store);
 
 function handleRedirect(nextState, replace, next) {
-  // debugger
-  // checkAuth()
   next();
 }
 

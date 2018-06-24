@@ -16,4 +16,9 @@ const checkAuth = (userName) => {
 	})
 }
 
-export { checkAuth }
+
+const env = {
+	logStatus: false
+};
+
+export { checkAuth, env }
