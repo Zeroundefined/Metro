@@ -1059,9 +1059,16 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.calcData && nextProps.calcData.data) {
+      this.setState({...nextProps.calcData.data});
+    }
+  }
+
   render() {
     const { review, selectedTable, timeRange, keyword, searchedField } = this.state;
-    const { location: { pathname }, faultData, workingData, equipData, materialData, checkInData } = this.props;
+    const { location: { pathname }, faultData, workingData, equipData, materialData, checkInData, calcData } = this.props;
+    console.log(this.props);
     const isMetaCenter = pathname.indexOf('metaCenter') > 0;
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
@@ -1105,19 +1112,22 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         cancelText='取消'
         className='reports-review-modal'
       >
-        <div className='reports-review' style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div className='left-part' style={{ width: 550 }}>
-            {<EquipCard data={this.state.equip}/>}
-            <MaterialCard data={this.state.material}/>
-            <CheckInCard data={this.state.polling}/>
-          </div>
-          <div className='right-part' style={{ width: 550 }}>
-            {<WorkingCard data={this.state.working} />}
+        <div className='reports-review' style={{ 
+          // display: 'flex', 
+          // justifyContent: 'space-between' 
+        }}>
+          {/*<div className='left-part' style={{ width: 550 }}>*/}
+            <EquipCard data={this.state.equip || {}}  />
+            <MaterialCard data={this.state.material || {}}/>
+            <CheckInCard data={this.state.polling || {}}/>
+          {/*</div>*/}
+          {/*<div className='right-part' style={{ width: 550 }}>*/}
+            {<WorkingCard data={this.state.working || {}} />}
             {<FaultCard 
-              data = {this.state.fault}
+              data = {this.state.fault || {}}
               // data={_.get(faultData, 'data')} 
               />}
-          </div>
+          {/*</div>*/}
         </div>
       </Modal>
     </div>
