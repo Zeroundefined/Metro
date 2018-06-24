@@ -19,7 +19,7 @@ export class MaterialCard extends React.Component<Props> {
         thirdClass
       } = data
       let conf = [];
-      Object.entries(thirdClass).map(data => {
+      thirdClass && Object.entries(thirdClass).map(data => {
         let materials = [];
         (data[1] as any).map(item => {
           materials.push([item.third_class, item.ratio * 100])
@@ -203,7 +203,7 @@ export class MaterialCard extends React.Component<Props> {
     return <Card className = 'material-card' title = '物资模块' >
     {
       handleConf().map(chart => {
-        return <ReactHighcharts config={chart}/>
+        return <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={chart}/></div>
       })
     }
       {/*<

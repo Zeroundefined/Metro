@@ -110,7 +110,6 @@ const screenshot = (content) => {
       if (data.errMsg) {
         message.error(data.errMsg);
       }
-      debugger
       return data
     })
   }

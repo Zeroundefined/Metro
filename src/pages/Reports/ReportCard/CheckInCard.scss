@@ -1,0 +1,16 @@
+.checkin-card {
+	display: flex;
+	height: 400px;
+	.number {
+		margin: auto;
+	}
+	.frequent {
+		font-size: 60px;
+		color: #3cc5d4;
+	}
+	.text {
+		font-size: 30px;
+		color: #3cc5d4;
+
+	}
+}

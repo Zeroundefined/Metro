@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as ReactHighcharts from 'react-highcharts';
-
+import {
+  Card
+} from 'src/components';
 interface Props {
   data: any
 }
@@ -12,7 +14,7 @@ export class FaultCard extends React.Component < Props > {
     const {
       data
     } = this.props;
-    const faultType = data.faultType;
+    const faultType = data.faultType || [];
     const total = faultType.reduce((tol, cur) => tol + cur[1], 0)
     const final = [];
     faultType.map(type => {
@@ -72,7 +74,7 @@ export class FaultCard extends React.Component < Props > {
     let categories = [];
     let faults =[];
 
-    hourDivided.map(divid => {
+    hourDivided && hourDivided.map(divid => {
       categories.push(divid.key);
       faults.push(divid.value)
     })
@@ -108,7 +110,7 @@ export class FaultCard extends React.Component < Props > {
     } = this.props;
     const final = [];
     const faultHandle = data.faultHandle;
-    faultHandle.map(handle => {
+    faultHandle && faultHandle.map(handle => {
       if (handle[0] == 'state_closed') {
         final.push(['故障状态-已完结', handle[1]]);
       }
@@ -159,7 +161,7 @@ export class FaultCard extends React.Component < Props > {
     const lineDivided = data.lineDivided;
     const final = [];
     for (var i = 1; i <= 17; i++) {
-      final.push(lineDivided[`line${i}`]);
+      final.push(lineDivided && lineDivided[`line${i}`]);
     }
 
     return {
@@ -202,19 +204,23 @@ export class FaultCard extends React.Component < Props > {
     // } = this.props;
 
     return <div className = 'fault-card' >
-      <ReactHighcharts config = {
+      <Card className='equip-card' title='故障信息'>
+
+      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
         this.handleFaultPercentConfig()
       }
-    /> 
-    <ReactHighcharts config = {
+    /> </div>
+    <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
       this.handle24HourConfig()
-    }/> 
-    <ReactHighcharts config = {
+    }/> </div>
+    <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
       this.handleFaultStatusConfig()
-    }/> 
-    <ReactHighcharts config = {
+    }/></div> 
+    <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
       this.handleLineFaultConfig()
-    }/> 
+    }/></div>
+    </Card>
+
     </div>
   }
 }

@@ -9,7 +9,7 @@ interface Props {
 
 export class WorkingCard extends React.Component<Props> {
   fixNumber = num => {
-    return Number((num * 100).toFixed(2))
+    return num && Number((num * 100).toFixed(2))
   }
   handleReachRatioConfig = () => {
     const { data } = this.props;
@@ -36,8 +36,7 @@ export class WorkingCard extends React.Component<Props> {
             name: 'Userless',
             y: this.fixNumber(1-reachRatio),
             dataLabels: {
-              enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+              enabled: false,
             },
           },
         ]
@@ -61,9 +60,7 @@ export class WorkingCard extends React.Component<Props> {
             y: this.fixNumber(hourRatio),
             sliced: true,
             dataLabels: {
-              enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-
+              enabled: false,
             },
           },
           {
@@ -104,8 +101,7 @@ export class WorkingCard extends React.Component<Props> {
             name: 'Userless',
             y: this.fixNumber(1-updateRatio),
             dataLabels: {
-              enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+              enabled: false,
             },
           },
         ]
@@ -116,7 +112,7 @@ export class WorkingCard extends React.Component<Props> {
   handleLineDividedConfig = () => {
     const { data } = this.props;
     let { lineDivided } = data;
-    let list = lineDivided.reduce((tol, cur) => {
+    let list = lineDivided && lineDivided.reduce((tol, cur) => {
       tol.push(cur[1])
       return tol
     }, [])
@@ -160,7 +156,7 @@ export class WorkingCard extends React.Component<Props> {
     let categories = [];
     let datas =[];
 
-    hourDivided.map(divid => {
+    hourDivided && hourDivided.map(divid => {
       categories.push(divid.key);
       datas.push(divid.value)
     })
@@ -215,10 +211,10 @@ export class WorkingCard extends React.Component<Props> {
             },
           },
           {
-            name: 'Userless',
+            name: 'Useless',
             y: 34.0,
             dataLabels: {
-              enabled: true,
+              enabled: false,
               format: '<b>{point.name}</b>: {point.percentage:.1f} %',
 
             },
@@ -391,15 +387,16 @@ export class WorkingCard extends React.Component<Props> {
     }
 
     return <Card className='working-card' title='施工模块'>
-      <ReactHighcharts config={this.handleReachRatioConfig()} />
-      <ReactHighcharts config={this.handleWorkingTimeRateConfig()} />
-      <ReactHighcharts config={this.handleUpdateRatioConfig()} />
-      <div>
-        <div>施工违规项</div>
-        <div>违规施工{data.illegal}起</div>
+      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleReachRatioConfig()} /></div>
+      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleWorkingTimeRateConfig()} /></div>
+      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleUpdateRatioConfig()} /></div>
+      <div className="illegal" style={{textAlign: 'center'; margin: 'auto'}}>
+        <div className="text" style={{color: '#333333'; fontSize: '18px';}}>施工违规项</div>
+        <div className="content" style={{color: '#3cc5d4';marginTop: '40px';fontSize: '30px';}}>
+          违规施工<span style={{margin: '0 10px'; fontSize: '50px';color: '#f5be25';}}>{data.illegal}</span>起</div>
       </div>
-      <ReactHighcharts config={this.handleLineDividedConfig()} />
-      <ReactHighcharts config={this.handleHourDividedConfig()} />
+      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleLineDividedConfig()} /></div>
+      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleHourDividedConfig()} /></div>
     </Card>
   }
 }

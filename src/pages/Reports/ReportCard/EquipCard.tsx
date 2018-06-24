@@ -13,21 +13,23 @@ export class EquipCard extends React.Component {
         data
       } = this.props;
       const {
-        thirdClass
+        thirdClass, firstClass
       } = data
       let conf = [];
-      Object.entries(thirdClass).map(data => {
+      thirdClass && Object.entries(thirdClass).map(data => {
         let materials = [];
         data[1].map(item => {
           materials.push([item.third_class, item.ratio * 100])
         });
+        let total = firstClass.reduce((tol, cur) => tol + cur.value, 0);
+        let percent = ((firstClass.find(item => item.key == data[0]).value/total) * 100).toFixed(2) ;
         conf.push({
           chart: {
             spacing: [0, 20, 20, 0]
           },
           title: {
             useHTML: true,
-            text: `<div>${data[0]}</div><div>40%</div>`
+            text: `<div>${data[0]}</div><div>${percent}%</div>`
           },
           tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -199,13 +201,14 @@ export class EquipCard extends React.Component {
         ]
       }]
     }
-    console.log(handleConf())
-    return <Card className='equip-card' title='设备模块' >
+    return <div>
+    <Card className='equip-card' title='设备模块'>
     {
       handleConf().map(data => {
-        return <ReactHighcharts config={data}/>
+        return <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={data}/></div>
       })
     }
     </Card>
+    </div>
   }
 }

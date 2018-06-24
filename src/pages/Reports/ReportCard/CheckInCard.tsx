@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactHighcharts from 'react-highcharts';
+import './CheckInCard.scss';
 
 export class CheckInCard extends React.Component {
   render() {
@@ -8,7 +9,7 @@ export class CheckInCard extends React.Component {
     let categories = [];
     let datas =[];
 
-    hourDivided.map(divid => {
+    hourDivided && hourDivided.map(divid => {
       categories.push(divid.key);
       datas.push(divid.value)
     })
@@ -89,11 +90,11 @@ export class CheckInCard extends React.Component {
       }]
     }
 
-    return <div className='checkin-card'>
+    return <div style={{display: 'flex'; height:'400px';}}>
       <ReactHighcharts config={line} />
-      <div>
-        <div>{frequent[0].frequent}</div>
-        <div>平均时长</div>
+      <div style={{margin: 'auto';}}>
+        <div className="frequent" style={{fontSize: '60px'; color: '#3cc5d4';}}>{frequent && frequent[0].frequent}</div>
+        <div className="text" style={{fontSize: '30px'; color: '#3cc5d4';}}>平均时长</div>
       </div>
     </div>
   }
