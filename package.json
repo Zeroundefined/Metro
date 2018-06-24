@@ -1,0 +1,51 @@
+{
+  "name": "metro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "set NODE_ENV=development && webpack-dev-server --config webpack.config.dev.js",
+    "build": "set UV_THREADPOOL_SIZE=100 && set NODE_ENV=production && webpack --config webpack.config.prod.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react-router": "^3.0.13",
+    "@types/react-router-redux": "4.0.51",
+    "antd": "^3.5.4",
+    "cache-loader": "^1.2.2",
+    "canvg": "^1.0.0",
+    "circular-dependency-plugin": "^5.0.2",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
+    "highcharts": "^6.1.0",
+    "html2canvas": "^1.0.0-alpha.12",
+    "jspdf": "^1.4.1",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-highcharts": "^16.0.2",
+    "react-redux": "^5.0.7",
+    "react-router": "3.2.0",
+    "react-router-redux": "4.0.8",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "sass-loader": "^7.0.1",
+    "save-svg-as-png": "^1.4.5",
+    "style-loader": "^0.21.0",
+    "thread-loader": "^1.1.5",
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.8.3",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "devDependencies": {
+    "@types/react": "^16.3.14",
+    "@types/react-dom": "^16.0.5",
+    "@types/react-redux": "^6.0.0"
+  }
+}

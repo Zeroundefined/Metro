@@ -1,0 +1,15 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  .card-title {
+    font-size: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px; 
+    margin-bottom: 15px;
+  }
+  .card-content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

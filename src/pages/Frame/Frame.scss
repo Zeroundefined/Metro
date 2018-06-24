@@ -1,0 +1,72 @@
+.frame {
+  display: flex;
+  min-height: 100%;
+  .left-menu {
+    background-color: #2b3551;
+    flex-shrink: 0;
+    width: 180px;
+    color: #fff;
+
+    .frame-menu-icon {
+      background: url('../../img/metro.png');
+      height: 20px;
+      width: 20px;
+      margin-right: 8px;
+      background-size: 100%; 
+    }
+
+    .ant-menu-item-group-title {
+      line-height: 44px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+
+    .ant-menu-item-group-list {
+      .ant-menu-item:hover {
+        background-color: rgba(196,211,255,.2);
+        color: #fff;
+      }
+  
+      .ant-menu-item:active {
+        background-color: rgba(0,0,0,.2);
+        color: #fff;
+      }
+  
+      .ant-menu-item-selected {
+        background-color: rgba(196,211,255,.2);
+        color: #fff;
+      }
+    }
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: -1px;
+    .header{
+      height: 60px;
+      box-shadow: 0 0 6px rgba(0,0,0,.22);
+      background-color: #fff;
+      z-index: 0;
+    }
+    .reports {
+      background-color: #e9ecf2;
+      flex-grow: 1;
+      padding: 20px 17px;
+    }
+    .container {
+      padding: 20px;
+      .container-title {
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        img {
+          width: 40px;
+          margin-right: 10px;
+        }
+        
+      }
+    }
+  }
+}
