@@ -203,20 +203,20 @@ export class FaultCard extends React.Component < Props > {
     //   data
     // } = this.props;
 
-    return <div className = 'fault-card' >
+    return <div className = 'fault-card' style={{marginBottom: 30}}>
       <Card className='equip-card' title='故障信息'>
 
-      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
         this.handleFaultPercentConfig()
       }
     /> </div>
-    <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
+    <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
       this.handle24HourConfig()
     }/> </div>
-    <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
+    <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
       this.handleFaultStatusConfig()
     }/></div> 
-    <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config = {
+    <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
       this.handleLineFaultConfig()
     }/></div>
     </Card>

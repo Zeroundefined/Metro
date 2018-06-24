@@ -5,7 +5,11 @@ import {
   Card
 } from 'src/components';
 
-export class EquipCard extends React.Component {
+interface Props {
+  data: any
+}
+
+export class EquipCard extends React.Component<Props> {
   render() {
 
     const handleConf = () => {
@@ -18,7 +22,7 @@ export class EquipCard extends React.Component {
       let conf = [];
       thirdClass && Object.entries(thirdClass).map(data => {
         let materials = [];
-        data[1].map(item => {
+        (data[1] as any).map(item => {
           materials.push([item.third_class, item.ratio * 100])
         });
         let total = firstClass.reduce((tol, cur) => tol + cur.value, 0);
@@ -52,7 +56,7 @@ export class EquipCard extends React.Component {
             innerSize: '60%',
             name: '市场份额',
             data: materials
-          }])
+          }]})
       })
       return conf;
     }
@@ -201,11 +205,11 @@ export class EquipCard extends React.Component {
         ]
       }]
     }
-    return <div>
+    return <div style={{ marginBottom: 30}}>
     <Card className='equip-card' title='设备模块'>
     {
       handleConf().map(data => {
-        return <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={data}/></div>
+        return <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={data}/></div>
       })
     }
     </Card>

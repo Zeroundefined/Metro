@@ -386,17 +386,17 @@ export class WorkingCard extends React.Component<Props> {
       }]
     }
 
-    return <Card className='working-card' title='施工模块'>
-      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleReachRatioConfig()} /></div>
-      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleWorkingTimeRateConfig()} /></div>
-      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleUpdateRatioConfig()} /></div>
-      <div className="illegal" style={{textAlign: 'center'; margin: 'auto'}}>
-        <div className="text" style={{color: '#333333'; fontSize: '18px';}}>施工违规项</div>
-        <div className="content" style={{color: '#3cc5d4';marginTop: '40px';fontSize: '30px';}}>
-          违规施工<span style={{margin: '0 10px'; fontSize: '50px';color: '#f5be25';}}>{data.illegal}</span>起</div>
+    return <Card className='working-card' title='施工模块' style={{ marginBottom: 30}}>
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleReachRatioConfig()} /></div>
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleWorkingTimeRateConfig()} /></div>
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleUpdateRatioConfig()} /></div>
+      <div className="illegal" style={{textAlign: 'center', margin: 'auto'}}>
+        <div className="text" style={{color: '#333333', fontSize: '18px'}}>施工违规项</div>
+        <div className="content" style={{color: '#3cc5d4', marginTop: '40px', fontSize: '30px'}}>
+          违规施工<span style={{margin: '0 10px', fontSize: '50px', color: '#f5be25'}}>{data.illegal}</span>起</div>
       </div>
-      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleLineDividedConfig()} /></div>
-      <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={this.handleHourDividedConfig()} /></div>
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleLineDividedConfig()} /></div>
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleHourDividedConfig()} /></div>
     </Card>
   }
 }

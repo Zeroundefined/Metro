@@ -1,8 +1,12 @@
 import * as React from 'react';
 import * as ReactHighcharts from 'react-highcharts';
 import './CheckInCard.scss';
+import { Card } from 'src/components';
 
-export class CheckInCard extends React.Component {
+interface Props {
+  data: any
+}
+export class CheckInCard extends React.Component<Props> {
   render() {
     const {data} = this.props;
     const { hourDivided, frequent } = data;
@@ -90,12 +94,14 @@ export class CheckInCard extends React.Component {
       }]
     }
 
-    return <div style={{display: 'flex'; height:'400px';}}>
-      <ReactHighcharts config={line} />
-      <div style={{margin: 'auto';}}>
-        <div className="frequent" style={{fontSize: '60px'; color: '#3cc5d4';}}>{frequent && frequent[0].frequent}</div>
-        <div className="text" style={{fontSize: '30px'; color: '#3cc5d4';}}>平均时长</div>
-      </div>
+    return <div style={{display: 'flex', height:'400px', marginBottom: 30}}>
+      <Card className='equip-card' title='巡检信息'>
+        <ReactHighcharts config={line} />
+        <div style={{margin: 'auto'}}>
+          <div className="frequent" style={{fontSize: '60px', color: '#3cc5d4'}}>{frequent && frequent[0].frequent}</div>
+          <div className="text" style={{fontSize: '30px', color: '#3cc5d4'}}>平均时长</div>
+        </div>
+      </Card>
     </div>
   }
 }

@@ -3,22 +3,14 @@ import { browserHistory, RouteComponentProps } from 'react-router';
 import { Menu, Icon, Avatar, Popover } from 'antd';
 import { env } from '../../utils/isLogin';
 import './Frame.scss';
-/* tslint:disable */
-import * as METAIMG from '../../img/icons-11.png';
-import * as REPORTIMG from '../../img/icons-12.png';
-import * as LOGIMG from '../../img/icons-13.png';
-
 const MenuItemGroup = Menu.ItemGroup;
 
 export default class Frame extends React.Component<RouteComponentProps<any, any>> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      types: {
-        "/metaCenter": {title: '元数据中心', icon_type: 'database', title_icon: METAIMG},
-        "/reports": {title: '报表管理', icon_type: 'area-chart', title_icon: REPORTIMG},
-        "/logs": {title: '日志管理', icon_type: 'profile', title_icon: LOGIMG}
-      }
+  state = {
+    types: {
+      "/metaCenter": {title: '元数据中心', icon_type: 'database', title_icon: '../../img/icons-11.png'},
+      "/reports": {title: '报表管理', icon_type: 'area-chart', title_icon: '../../img/icons-12.png'},
+      "/logs": {title: '日志管理', icon_type: 'profile', title_icon: '../../img/icons-13.png'}
     }
   }
 
@@ -54,6 +46,7 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
 
   render() {
     const {location:{pathname}} = this.props;
+    const { types } = this.state;
     return <div className="frame">
       <Menu onClick={this.handleRouting} className="left-menu" selectedKeys={[pathname]}>
         <MenuItemGroup title={<><div className="frame-menu-icon"/>数据管理平台</>}>
@@ -68,7 +61,7 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
         </div>
         <div className="container">
           <div className="container-title">
-            <img src={this.state.types[pathname] && this.state.types[pathname].title_icon} />
+            <div style={{background: !types[pathname] ? '' : `url(${types[pathname]['title_icon']})`}}></div>
             <span className="container-title">{this.state.types[pathname] && this.state.types[pathname].title}</span>
           </div>
           {this.props.children}

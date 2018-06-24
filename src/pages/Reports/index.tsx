@@ -519,7 +519,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         "line16": 40,
         "line17": 52
       }
-    }
+    },
     "working": {
       "reachRatio": 0.23809523809523808,
       "hourRatio": 0.01147959203947158,
@@ -1119,11 +1119,12 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         className='reports-review-modal'
       >
         <div className='reports-review' style={{ 
+          margin: 30
           // display: 'flex', 
           // justifyContent: 'space-between' 
         }}>
           {/*<div className='left-part' style={{ width: 550 }}>*/}
-            <EquipCard data={this.state.equip || {}}  />
+            <EquipCard data={this.state.equip || {}} />
             <MaterialCard data={this.state.material || {}}/>
             <CheckInCard data={this.state.polling || {}}/>
           {/*</div>*/}
