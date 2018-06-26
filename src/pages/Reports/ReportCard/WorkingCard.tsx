@@ -110,13 +110,23 @@ export class WorkingCard extends React.Component<Props> {
   }
 
   handleLineDividedConfig = () => {
-    const { data } = this.props;
-    let { lineDivided } = data;
-    let list = lineDivided && lineDivided.reduce((tol, cur) => {
-      tol.push(cur[1])
-      return tol
-    }, [])
-    return {
+    const {
+      data
+    } = this.props;
+    const lineDivided = data.lineDivided;
+    const list = [];
+    const lineWorking = [];
+    const categories = [
+      '一号线', '二号线', '三号线', '四号线', '五号线', '六号线', '七号线', '八号线', '九号线', '十号线', '十一号线', '十二号线', '十三号线', '十四号线', '十五号线', '十六号线', '十七号线'
+    ];
+    if(lineDivided) {
+      for (var i = 1; i <= 17; i++) {
+        list.push(lineDivided[i-1][1]);
+        lineWorking.push(`${categories[i-1]}${lineDivided[i-1][1]}个`)
+      }
+    }
+
+    return [{
       chart: {
         type: 'column'
       },
@@ -124,9 +134,7 @@ export class WorkingCard extends React.Component<Props> {
         text: '施工数量(路线)'
       },
       xAxis: {
-        categories: [
-          '一号线', '二号线', '三号线', '四号线', '五号线', '六号线', '七号线', '八号线', '九号线', '十号线', '十一号线', '十二号线', '十三号线', '十四号线', '十五号线', '十六号线', '十七号线'
-        ],
+        categories,
         crosshair: true
       },
       yAxis: {
@@ -147,7 +155,7 @@ export class WorkingCard extends React.Component<Props> {
       series: [{
         data: list
       }]
-    }
+    }, lineWorking.join(',')]
   }
 
   handleHourDividedConfig = () => {
@@ -192,7 +200,7 @@ export class WorkingCard extends React.Component<Props> {
 
   render() {
     const { data } = this.props;
-
+    let [LineDividedConfig, lineWorking] = this.handleLineDividedConfig();
     return <Card className='working-card' title='施工模块' style={{ marginBottom: 30}}>
       <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleReachRatioConfig()} /></div>
       <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleWorkingTimeRateConfig()} /></div>
@@ -202,8 +210,12 @@ export class WorkingCard extends React.Component<Props> {
         <div className="content" style={{color: '#3cc5d4', marginTop: '40px', fontSize: '30px'}}>
           违规施工<span style={{margin: '0 10px', fontSize: '50px', color: '#f5be25'}}>{data.illegal}</span>起</div>
       </div>
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleLineDividedConfig()} /></div>
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleHourDividedConfig()} /></div>
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={LineDividedConfig} />
+        <div style={{padding: '20px 40px'}}>各线路施工数{lineWorking}</div>   
+      </div>
+      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleHourDividedConfig()} />
+        <div style={{padding: '20px 40px'}}>XX年XX月施工管理系统共办理XX起施工，其中日常巡检施工XX起，项目施工XX起，二级重大施工XX起。施工兑现率XX，工时利用率XX，实施规范率XX，计划变更率XX。</div>
+      </div>
     </Card>
   }
 }

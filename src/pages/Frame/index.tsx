@@ -16,7 +16,7 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
 
   componentWillMount() {
     if (!env.logStatus) {
-      browserHistory.push('/login');
+      // browserHistory.push('/login');
     }
   }
   handleRouting = item => {

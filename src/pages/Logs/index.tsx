@@ -3,12 +3,9 @@ import './Logs.scss';
 import { getLogs } from './LogsRedux';
 
 export default class Logs extends React.Component {
-
 	state = {
-		logs: [
-				
-		]
-	}
+			logs: []
+		}
 
 	componentDidMount() {
 		getLogs().then(data => {
@@ -16,11 +13,13 @@ export default class Logs extends React.Component {
 		})
 	}
   render() {
-  	let {logs} = this.state;
+  	let { logs } = this.state;
     return (
 	    <div className="logs">
 	    	<ul className="content">
-	    		{logs.map((log, key) => <li key={log.id}>{log.content}</li>)}		
+	    		{
+						logs.map((log, key) => <li key={log.id}>{log.content}</li>)
+					}		
 	    	</ul>	    
 	    </div>
     	

@@ -8,7 +8,9 @@ interface Props {
 }
 
 export class FaultCard extends React.Component < Props > {
-
+  state = {
+    lineFault:''
+  }
   handleFaultPercentConfig = () => {
     /** 故障类型占比 */
     const {
@@ -160,11 +162,18 @@ export class FaultCard extends React.Component < Props > {
     } = this.props;
     const lineDivided = data.lineDivided;
     const final = [];
-    for (var i = 1; i <= 17; i++) {
-      final.push(lineDivided && lineDivided[`line${i}`]);
+    const lineFault = [];
+    const categories = [
+      '一号线', '二号线', '三号线', '四号线', '五号线', '六号线', '七号线', '八号线', '九号线', '十号线', '十一号线', '十二号线', '十三号线', '十四号线', '十五号线', '十六号线', '十七号线'
+    ];
+    if(lineDivided) {
+      for (var i = 1; i <= 17; i++) {
+        final.push(lineDivided && lineDivided[`line${i}`]);
+        lineFault.push(`${categories[i-1]}${lineDivided[`line${i}`]}个`)
+      }
     }
 
-    return {
+    return [{
       chart: {
         type: 'column'
       },
@@ -172,9 +181,7 @@ export class FaultCard extends React.Component < Props > {
         text: '各线路故障情况'
       },
       xAxis: {
-        categories: [
-          '一号线', '二号线', '三号线', '四号线', '五号线', '六号线', '七号线', '八号线', '九号线', '十号线', '十一号线', '十二号线', '十三号线', '十四号线', '十五号线', '十六号线', '十七号线'
-        ],
+        categories,
         crosshair: true
       },
       yAxis: {
@@ -195,31 +202,38 @@ export class FaultCard extends React.Component < Props > {
         name: '故障数量',
         data: final
       }]
-    }
+    }, lineFault]
   }
+
 
   render() {
     // const {
     //   data
     // } = this.props;
+    // let text = this.state.lineFault.join(',')
+    let [config, lineFault] = this.handleLineFaultConfig();
 
-    return <div className = 'fault-card' style={{marginBottom: 30}}>
+    return <div className='fault-card' style={{ marginBottom: 30 }}>
       <Card className='equip-card' title='故障信息'>
 
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
-        this.handleFaultPercentConfig()
-      }
-    /> </div>
-    <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
-      this.handle24HourConfig()
-    }/> </div>
-    <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
-      this.handleFaultStatusConfig()
-    }/></div> 
-    <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config = {
-      this.handleLineFaultConfig()
-    }/></div>
-    </Card>
+        <div style={{ minWidth: '220px', width: '50%' }}><ReactHighcharts config={
+          this.handleFaultPercentConfig()
+        }
+        /> </div>
+        <div style={{ minWidth: '220px', width: '50%' }}><ReactHighcharts config={
+          this.handle24HourConfig()
+        } /> </div>
+        <div style={{ minWidth: '220px', width: '50%' }}>
+          <ReactHighcharts config={
+            this.handleFaultStatusConfig()
+          } />
+          <div style={{padding: '20px 40px'}}>XX年XX月故障接报系统共计接报XX起故障，较去年同比增长（减少）XX%，较上月环比增长（减少）XX%，引起五分钟晚点X起，全年累计X起，全年累计X起，十五分钟晚点X起。其中信号专业故障XX起，通信专业故障XX起，信息专业故障XX起，平均故障处置用时X小时X分钟，故障修复率XX%，闭环率XX%。</div>
+        </div>
+        <div style={{ minWidth: '220px', width: '50%' }}>
+          <ReactHighcharts config={config} />
+          <div style={{padding: '20px 40px'}}>各线路故障数：{lineFault}</div>
+        </div>
+      </Card>
 
     </div>
   }
