@@ -19,7 +19,6 @@ module.exports = {
   entry: 'src/index.tsx',
   output: {
     path: path.resolve(__dirname, './build'),
-    publicPath: '/build',
     filename: '[name].js',
     globalObject: 'this'
   },
@@ -73,7 +72,12 @@ module.exports = {
       {
         test: /\.(png|jpg)$/,
         include: [path.resolve(__dirname, 'src')],
-        loader: 'file-loader',
+        use: [
+          {
+            loader: 'file-loader',
+            options: {name: '[name].png'}  
+          }
+        ]
       }
     ]
   },
