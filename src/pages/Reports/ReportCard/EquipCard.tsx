@@ -202,7 +202,7 @@ export class EquipCard extends React.Component {
       }]
     }
     return <div>
-    <Card className='equip-card' title='设备模块'>
+    <Card className='equip-card' title='设备信息'>
     {
       handleConf().map(data => {
         return <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={data}/></div>

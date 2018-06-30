@@ -1101,7 +1101,14 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         {!isMetaCenter && <Button className="screenshot" type='primary' style={{ float: 'right' }} onClick={this.openReview}>预览</Button>}
       </div>
 
-      <Table style={{ width: 1500 }} scroll={{ x: 2500 }} rowSelection={isMetaCenter ? rowSelection : null} columns={this[Columns[selectedTable]]} dataSource={_.get(this.props[DataType[selectedTable]], 'data')} />
+      <Table 
+        style={{ width: '100%' }} 
+        scroll={{ x: 2500 }} 
+        rowSelection={isMetaCenter ? rowSelection : null} 
+        columns={this[Columns[selectedTable]]} 
+        dataSource={_.get(this.props[DataType[selectedTable]], 'data')} 
+      />
+
       <Modal
         width={1200}
         style={{ height: 990 }}

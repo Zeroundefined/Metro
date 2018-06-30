@@ -196,7 +196,7 @@ export class MaterialCard extends React.Component {
       }]
     }
     var text = handleConf()
-    return <Card className = 'material-card' title = '物资模块' >
+    return <Card className = 'material-card' title = '物资信息' >
     {
       handleConf().map(chart => {
         return <div style={{minWidth: '220px'; width: '50%';}}><ReactHighcharts config={chart}/></div>

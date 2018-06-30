@@ -4,7 +4,8 @@
   .left-menu {
     background-color: #2b3551;
     flex-shrink: 0;
-    width: 180px;
+    // width: 180px;
+    width: 15%;
     color: #fff;
 
     .frame-menu-icon {
@@ -44,11 +45,15 @@
     flex-direction: column;
     flex-grow: 1;
     margin-left: -1px;
+    width: 85%;
     .header{
       height: 60px;
       box-shadow: 0 0 6px rgba(0,0,0,.22);
       background-color: #fff;
       z-index: 0;
+
+      align-items: center;
+      display: flex;
     }
     .reports {
       background-color: #e9ecf2;
@@ -57,6 +62,9 @@
     }
     .container {
       padding: 20px;
+
+      background: #e9ecf2;
+      flex-grow: 1;
       .container-title {
         margin-bottom: 10px;
         font-size: 18px;
