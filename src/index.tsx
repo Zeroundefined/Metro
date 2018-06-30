@@ -8,7 +8,6 @@ import { Login, Reports, Frame, Logs } from './pages';
 import { reducer as LoginReducer } from '../src/pages/Login/LoginRedux';
 import { reducer as ReportsReducer } from '../src/pages/Reports/ReportsRedux';
 import thunk from 'redux-thunk';
-import { env } from 'src/utils/isLogin';
 import './app.scss';
 import 'antd/dist/antd.css';
 

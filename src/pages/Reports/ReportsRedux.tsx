@@ -1,5 +1,6 @@
 import { url, Response } from '../../utils/http';
 import { message } from 'antd';
+import { browserHistory } from 'react-router';
 
 const prefix = 'reports/';
 
@@ -14,6 +15,7 @@ enum DataType {
 const getResultTables = () => {
   return (dispatch) => {
     return fetch(`${url}/getResultTables`, {
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json'
       }
@@ -24,6 +26,9 @@ const getResultTables = () => {
       })
 
       if (data.errMsg) {
+        if(data.code === 401) {
+          browserHistory.push('/login');
+        }
         message.error(data.errMsg);
       }
 
@@ -37,6 +42,7 @@ const updateData = (selectedTable, editingItem, value) => {
   return () => {
     return fetch(`${url}/updateData`, {
       method: 'POST',
+      credentials: "include",
       body: JSON.stringify({
         selectedTable,
         editingItem,
@@ -48,6 +54,9 @@ const updateData = (selectedTable, editingItem, value) => {
       }
     }).then((res) => res.json()).then(data => {
       if (data.errMsg) {
+        if(data.code === 401) {
+          browserHistory.push('/login');
+        }
         message.error(data.errMsg);
       }
       return data;
@@ -59,6 +68,7 @@ const updateData = (selectedTable, editingItem, value) => {
 const getData = (selectedTable, timeRange, field, keyword?) => {
   return (dispatch) => {
     return fetch(`${url}/getData?table=${selectedTable}&timeRange=${[new Date(timeRange[0]).toLocaleDateString(), new Date(timeRange[1]).toLocaleDateString()]}&keyword=${keyword}&field=${field}`, {
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json'
       }
@@ -69,6 +79,9 @@ const getData = (selectedTable, timeRange, field, keyword?) => {
       })
 
       if (data.errMsg) {
+        if(data.code === 401) {
+          browserHistory.push('/login');
+        }
         message.error(data.errMsg);
       }
       return data
@@ -79,6 +92,7 @@ const getData = (selectedTable, timeRange, field, keyword?) => {
 const getCalcData = (timeRange) => {
   return (dispatch) => {
     return fetch(`${url}/getCalcData?timeRange=${[new Date(timeRange[0]).toLocaleDateString(), new Date(timeRange[1]).toLocaleDateString()]}`, {
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json'
       }
@@ -89,6 +103,9 @@ const getCalcData = (timeRange) => {
       })
 
       if (data.errMsg) {
+        if(data.code === 401) {
+          browserHistory.push('/login');
+        }
         message.error(data.errMsg);
       }
       return data
@@ -99,6 +116,7 @@ const getCalcData = (timeRange) => {
 const screenshot = (content) => {
   return () => {
     return fetch(`${url}/screenshot`, {
+      credentials: "include",
       headers: {
         'Content-Type': 'application/json'
       },
@@ -108,6 +126,9 @@ const screenshot = (content) => {
       }),
     }).then((res) => res.json()).then(data => {
       if (data.errMsg) {
+        if(data.code === 401) {
+          browserHistory.push('/login');
+        }
         message.error(data.errMsg);
       }
       return data
