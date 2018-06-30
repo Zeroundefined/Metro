@@ -1120,8 +1120,8 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     }
   }
 
-  componentDidMount() {
-    const { getResultTables, getOriginTables , getData, location: { pathname } } = this.props;
+  init = (props) => {
+    const { getResultTables, getOriginTables , getData, location: { pathname } } = props;
     const { timeRange, keyword } = this.state;
     const isMetaCenter = pathname.indexOf('metaCenter') > 0;
     const request  = isMetaCenter ? getOriginTables : getResultTables;
@@ -1134,6 +1134,20 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         getData(table, timeRange, this[Columns[data.data[0]]][0].key, keyword);
       })
     });
+  }
+
+  componentDidMount() {
+    this.init(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.calcData && nextProps.calcData.data) {
+      this.setState({...nextProps.calcData.data});
+    }
+
+    if(this.props.location.pathname !== nextProps.location.pathname) {
+      this.init(nextProps);
+    }
   }
 
   handleCellDBLClick = (record, field) => {
@@ -1233,12 +1247,6 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     return selectedTable && _.reject(this[Columns[selectedTable]], { key: 'datelabel' }).map(item => {
       return <Option key={item.key}>{item.key}</Option>
     })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.calcData && nextProps.calcData.data) {
-      this.setState({...nextProps.calcData.data});
-    }
   }
 
   render() {
