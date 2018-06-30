@@ -20,11 +20,15 @@ const mapStateToProps = (state) => ({
 })
 
 enum Columns {
-  'breakdown_facility_result' = 'faultColumns',
-  'construction_information_result' = 'workingColumns',
-  'facility_information_result' = 'equipColumns',
-  'material_information_result' = 'materialColumns',
-  'polling_information_result' = 'checkInColumns',
+  'material_information_result' = 'resultMaterialColumns',
+  'polling_avg_duration_result' = 'resultPollingAvgDurationColumns',
+  'polling_num_hour_result' = 'resultPollingNumHourColumns',
+  'polling_num_result' = 'resultPollingNumColumns',
+  // 'breakdown_facility_result' = 'faultColumns',
+  // 'construction_information_result' = 'workingColumns',
+  // 'facility_information_result' = 'equipColumns',
+  // 'polling_information_result' = 'checkInColumns',
+
   'breakdown_facility_origin' = 'originFaultColumns',
   'construction_information_origin' = 'originWorkingColumns',
   'facility_information_origin' = 'originEquipColumns',
@@ -32,11 +36,29 @@ enum Columns {
   'polling_information_origin' = 'originCheckInColumns'
 }
 
+enum TableDict {
+  'material_information_result' = '物资信息',
+  'polling_avg_duration_result' = '巡检信息--巡检时长',
+  'polling_num_hour_result' = '巡检信息--巡检次数--分时',
+  'polling_num_result' = '巡检信息--巡检次数',
+  // 'breakdown_facility_result' = 'faultColumns',
+  // 'construction_information_result' = 'workingColumns',
+  // 'facility_information_result' = 'equipColumns',
+  // 'material_information_result' = 'materialColumns',
+  // 'polling_information_result' = 'checkInColumns',
+  'breakdown_facility_origin' = '故障信息元数据表',
+  'construction_information_origin' = '施工信息元数据表',
+  'facility_information_origin' = '设备信息元数据表',
+  'material_information_origin' = '物资信息元数据表',
+  'polling_information_origin' = '巡检信息元数据表'
+}
+
 const dateFormat = 'YYYY/MM/DD';
 
 class Reports extends React.Component<RouteComponentProps<any, any> & typeof actions & InitState> {
   /** 元数据表字段 */
-  originFaultColumns = [{
+  originFaultColumns = [
+  {
     title: '发生日期',
     dataIndex: 'datelabel',
     key: 'datelabel',
@@ -52,7 +74,6 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     title: '故障序号',
     dataIndex: 'fault_sequence',
     key: 'fault_sequence',
-    fixed: true,
     width: 150,
     render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'fault_sequence') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'fault_sequence')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
@@ -351,7 +372,8 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'location') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'location')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }
 ];
-  originMaterialColumns = [{
+  originMaterialColumns = [
+  {
     title: '日期',
     dataIndex: 'datelabel',
     key: 'datelabel',
@@ -466,6 +488,104 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
   }];
 
   /** 结果表字段 */
+  resultMaterialColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '类型',
+      dataIndex: 'type',
+      key: 'type',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'type')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '状态',
+      dataIndex: 'staut',
+      key: 'staut',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'staut') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'staut')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'number',
+      key: 'number',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ];
+  resultPollingAvgDurationColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '线路',
+      dataIndex: 'line',
+      key: 'line',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '平均时长',
+      dataIndex: 'avg_duration',
+      key: 'avg_duration',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'avg_duration') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'avg_duration')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ];
+  resultPollingNumHourColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '时段',
+      dataIndex: 'hour',
+      key: 'hour',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'hour') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'hour')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '线路',
+      dataIndex: 'line',
+      key: 'line',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '次数',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultPollingNumColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '线路',
+      dataIndex: 'line',
+      key: 'line',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '次数',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ];
+  
+  
   state = {
     review: false,
     editingItem: {} as any,
@@ -1105,7 +1225,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     const { resultTables, originTables ,location: { pathname } } = this.props;
     const isMetaCenter = pathname.indexOf('metaCenter') > 0;
     const tables  = isMetaCenter ? originTables : resultTables;
-    return (_.get(tables, 'data') || []).map(table => <Option key={table}>{table}</Option>)
+    return (_.get(tables, 'data') || []).map(table => <Option key={table}>{TableDict[table]}</Option>)
   }
 
   renderOptions() {
