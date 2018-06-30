@@ -15,8 +15,14 @@ export class WorkingCard extends React.Component<Props> {
     const { data } = this.props;
     let { reachRatio } = data;
     return {
+      chart:{
+        backgroundColor : '#030B1E'
+      },
       title: {
-        text: '施工计划兑现率'
+        text: '施工计划兑现率',
+        style: {
+          color: '#ffffff'
+        }
       },
       colors: ['#40a9ff', 'rgba(0,0,0,0.05)'],
       series: [{
@@ -29,8 +35,11 @@ export class WorkingCard extends React.Component<Props> {
             dataLabels: {
               enabled: true,
               format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-
+                style: {
+                  color: '#ffffff'
+                }
             },
+            color: '#4B99A5'
           },
           {
             name: 'Useless',
@@ -48,8 +57,14 @@ export class WorkingCard extends React.Component<Props> {
     const { data } = this.props;
     let { hourRatio } = data;
     return {
+      chart:{
+        backgroundColor : '#030B1E'
+      },
       title: {
-        text: '施工计划工时利用率'
+        text: '施工计划工时利用率',
+        style: {
+          color: '#ffffff'
+        }
       },
       colors: ['#40a9ff', 'rgba(0,0,0,0.05)'],
       series: [{
@@ -62,6 +77,7 @@ export class WorkingCard extends React.Component<Props> {
             dataLabels: {
               enabled: false,
             },
+            color: '#DF5A5A'
           },
           {
             name: 'Userless',
@@ -80,8 +96,14 @@ export class WorkingCard extends React.Component<Props> {
     const { data } = this.props;
     let { updateRatio } = data;
     return {
+      chart: {
+        backgroundColor : '#030B1E'
+      },
       title: {
-        text: '施工计划变更率'
+        text: '施工计划变更率',
+        style: {
+          color: '#ffffff'
+        }
       },
       colors: ['#40a9ff', 'rgba(0,0,0,0.05)'],
       series: [{
@@ -96,6 +118,7 @@ export class WorkingCard extends React.Component<Props> {
               format: '<b>{point.name}</b>: {point.percentage:.1f} %',
 
             },
+            color: '#6BB582'
           },
           {
             name: 'Useless',
@@ -128,10 +151,14 @@ export class WorkingCard extends React.Component<Props> {
 
     return [{
       chart: {
-        type: 'column'
+        type: 'column',
+        backgroundColor : '#030B1E',
       },
       title: {
-        text: '施工数量(路线)'
+        text: '施工数量(路线)',
+        style: {
+          color: '#ffffff'
+        }
       },
       xAxis: {
         categories,
@@ -140,7 +167,10 @@ export class WorkingCard extends React.Component<Props> {
       yAxis: {
         min: 0,
         title: {
-          text: '施工数量'
+          text: '施工数量',
+          style: {
+            color: '#ffffff'
+          }
         }
       },
       tooltip: {
@@ -152,9 +182,15 @@ export class WorkingCard extends React.Component<Props> {
         shared: true,
         useHTML: true
       },
+      plotOptions: {
+        column: {
+            colorByPoint:true
+        }
+      },
       series: [{
-        data: list
-      }]
+        data: list,
+      }],
+      colors: ['#CE0000', '#8BCB1F', '#FECD06', '#502E84', '#9A52A4', '#E80378', '#F66F15', '#089BDE', '#7DC8E8', '#B1A0C4', '#8E162F', '#03795F', '#E794BF', '#89CFBD', '#BB786F']
     }, lineWorking.join(',')]
   }
 
@@ -171,10 +207,14 @@ export class WorkingCard extends React.Component<Props> {
 
     return {
       chart: {
-        type: 'area'
+        type: 'area',
+        backgroundColor : '#030B1E'
       },
       title: {
-        text: '施工数量（每小时）'
+        text: '施工数量（每小时）',
+        style: {
+          color: '#ffffff'
+        }
       },
       xAxis: {
         allowDecimals: false,
@@ -182,7 +222,10 @@ export class WorkingCard extends React.Component<Props> {
       },
       yAxis: {
         title: {
-          text: '施工小时'
+          text: '施工小时',
+          style: {
+            color: '#ffffff'
+          }
         },
         labels: {
           formatter: function () {
@@ -192,7 +235,8 @@ export class WorkingCard extends React.Component<Props> {
       },
       series: [{
         data: datas
-      }]
+      }],
+      colors: ['#f5ab24']
     }
   }
 
@@ -200,21 +244,44 @@ export class WorkingCard extends React.Component<Props> {
 
   render() {
     const { data } = this.props;
+    const {reachRatio, hourRatio, updateRatio, illegal, hourDivided} = data;
     let [LineDividedConfig, lineWorking] = this.handleLineDividedConfig();
     return <Card className='working-card' title='施工模块' style={{ marginBottom: 30}}>
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleReachRatioConfig()} /></div>
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleWorkingTimeRateConfig()} /></div>
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleUpdateRatioConfig()} /></div>
-      <div className="illegal" style={{textAlign: 'center', margin: 'auto'}}>
-        <div className="text" style={{color: '#333333', fontSize: '18px'}}>施工违规项</div>
-        <div className="content" style={{color: '#3cc5d4', marginTop: '40px', fontSize: '30px'}}>
-          违规施工<span style={{margin: '0 10px', fontSize: '50px', color: '#f5be25'}}>{data.illegal}</span>起</div>
+      <div style={{minWidth: '220px', width: '50%'}}>
+        {
+          reachRatio ? <ReactHighcharts config={this.handleReachRatioConfig()} /> : '暂无施工计划兑现率'
+        }
       </div>
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={LineDividedConfig} />
+      <div style={{minWidth: '220px', width: '50%'}}>
+        {
+          hourRatio ? <ReactHighcharts config={this.handleWorkingTimeRateConfig()} /> : '暂无施工计划工时利用率'
+        }
+      </div>
+      <div style={{minWidth: '220px', width: '50%'}}>
+        {
+          updateRatio ? <ReactHighcharts config={this.handleUpdateRatioConfig()} /> : '暂无施工计划变更率'
+        }
+      </div>
+      {illegal ?
+        <div className="illegal" style={{textAlign: 'center', margin: 'auto'}}>
+          <div className="text" style={{color: '#333333', fontSize: '18px'}}>施工违规项</div>
+          <div className="content" style={{color: '#3cc5d4', marginTop: '40px', fontSize: '30px'}}>
+            违规施工<span style={{margin: '0 10px', fontSize: '50px', color: '#f5be25'}}>{data.illegal}</span>起</div>
+        </div>:
+        <div>暂无施工违规数据</div>
+      }
+      <div style={{minWidth: '220px', width: '50%'}}>
+        <ReactHighcharts config={LineDividedConfig} />
         <div style={{padding: '20px 40px'}}>各线路施工数{lineWorking}</div>   
       </div>
-      <div style={{minWidth: '220px', width: '50%'}}><ReactHighcharts config={this.handleHourDividedConfig()} />
-        <div style={{padding: '20px 40px'}}>XX年XX月施工管理系统共办理XX起施工，其中日常巡检施工XX起，项目施工XX起，二级重大施工XX起。施工兑现率XX，工时利用率XX，实施规范率XX，计划变更率XX。</div>
+      <div style={{minWidth: '220px', width: '50%'}}>
+        {hourDivided && hourDivided.length ?
+          <div>
+            <ReactHighcharts config={this.handleHourDividedConfig()} />
+            <div style={{padding: '20px 40px'}}>XX年XX月施工管理系统共办理XX起施工，其中日常巡检施工XX起，项目施工XX起，二级重大施工XX起。施工兑现率XX，工时利用率XX，实施规范率XX，计划变更率XX。</div>
+          </div> :
+          <div>暂无施工数量</div>
+        }
       </div>
     </Card>
   }

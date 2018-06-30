@@ -16,5 +16,13 @@
 .reports-review-modal {
   .ant-modal-body {
     padding: 25px;
+    background: #030B1E;
+    color: #ffffff;
+  }
+  .ant-modal-footer {
+    background: #030B1E;
+  }
+  .ant-modal-close {
+    color: #ffffff;
   }
 }

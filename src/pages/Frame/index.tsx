@@ -56,7 +56,7 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
       <div className="content">
         <div className="header">
           <Popover placement="bottomRight" content={this.renderAvatar()}>
-            <Avatar icon="user" style={{marginLeft: 'auto', marginRight: 20, marginTop: 15, float: 'right'}}/>
+            <Avatar icon="user" style={{marginLeft: 'auto', marginRight: 20, float: 'right'}}/>
           </Popover>
         </div>
         <div className="container">

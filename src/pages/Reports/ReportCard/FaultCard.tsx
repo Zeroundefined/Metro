@@ -36,11 +36,15 @@ export class FaultCard extends React.Component < Props > {
 
     return {
       chart: {
-        spacing: [40, 0, 40, 0]
+        spacing: [40, 0, 40, 0],
+        backgroundColor : '#030B1E'
       },
       title: {
         floating: true,
-        text: '故障类型占比'
+        text: '故障类型占比',
+        style: {
+          color: '#ffffff'
+        }
       },
       tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -53,7 +57,7 @@ export class FaultCard extends React.Component < Props > {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
             style: {
-              color: 'black'
+              color: '#ffffff'
             }
           }
         }
@@ -63,7 +67,8 @@ export class FaultCard extends React.Component < Props > {
         innerSize: '60%',
         name: '故障占比',
         data: final
-      }]
+      }],
+      colors: ['#9A52A4', '#E4A15A', '#CA476F', '#68A788']
     }
   }
 
@@ -82,10 +87,14 @@ export class FaultCard extends React.Component < Props > {
     })
     return {
       chart: {
-        type: 'area'
+        type: 'area',
+        backgroundColor : '#030B1E'
       },
       title: {
-        text: '24小时故障情况'
+        text: '24小时故障情况',
+        style: {
+          color: '#ffffff'
+        }
       },
       xAxis: {
         allowDecimals: false,
@@ -93,7 +102,10 @@ export class FaultCard extends React.Component < Props > {
       },
       yAxis: {
         title: {
-          text: '故障数量'
+          text: '故障数量',
+          style: {
+            color: '#ffffff'
+          }
         },
       },
       tooltip: {
@@ -101,8 +113,11 @@ export class FaultCard extends React.Component < Props > {
       },
       series: [{
         name: '故障情况',
-        data: faults
-      }]
+        data: faults,
+        style: {
+          color: '#ffffff'
+        }
+      }],
     }
   }
 
@@ -131,11 +146,15 @@ export class FaultCard extends React.Component < Props > {
 
     return {
       chart: {
-        spacing: [40, 0, 40, 0]
+        spacing: [40, 0, 40, 0],
+        backgroundColor : '#030B1E'
       },
       title: {
         text: '故障处理状态',
-        margin: 30
+        margin: 30,
+        style: {
+          color: '#ffffff'
+        }
       },
       plotOptions: {
         pie: {
@@ -175,10 +194,14 @@ export class FaultCard extends React.Component < Props > {
 
     return [{
       chart: {
-        type: 'column'
+        type: 'column',
+        backgroundColor : '#030B1E'
       },
       title: {
-        text: '各线路故障情况'
+        text: '各线路故障情况',
+        style: {
+          color: '#ffffff'
+        }
       },
       xAxis: {
         categories,
@@ -187,7 +210,10 @@ export class FaultCard extends React.Component < Props > {
       yAxis: {
         min: 0,
         title: {
-          text: '故障数量（个）'
+          text: '故障数量（个）',
+          style: {
+            color: '#ffffff'
+          }
         }
       },
       tooltip: {
@@ -195,13 +221,15 @@ export class FaultCard extends React.Component < Props > {
       },
       plotOptions: {
         column: {
-          borderWidth: 0
+            colorByPoint:true,
+            borderWidth: 0
         }
       },
       series: [{
         name: '故障数量',
         data: final
-      }]
+      }],
+      colors: ['#CE0000', '#8BCB1F', '#FECD06', '#502E84', '#9A52A4', '#E80378', '#F66F15', '#089BDE', '#7DC8E8', '#B1A0C4', '#8E162F', '#03795F', '#E794BF', '#89CFBD', '#BB786F']
     }, lineFault]
   }
 

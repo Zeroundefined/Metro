@@ -4,8 +4,7 @@
   .left-menu {
     background-color: #2b3551;
     flex-shrink: 0;
-    // width: 180px;
-    width: 15%;
+    width: 180px;
     color: #fff;
 
     .frame-menu-icon {
@@ -45,7 +44,7 @@
     flex-direction: column;
     flex-grow: 1;
     margin-left: -1px;
-    width: 85%;
+    width: calc(100vh - 180px);
     .header{
       height: 60px;
       box-shadow: 0 0 6px rgba(0,0,0,.22);

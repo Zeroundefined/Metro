@@ -540,59 +540,59 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         ],
         [
           "line4",
-          0
+          20
         ],
         [
           "line5",
-          0
+          30
         ],
         [
           "line6",
-          0
+          40
         ],
         [
           "line7",
-          0
+          10
         ],
         [
           "line8",
-          0
+          3
         ],
         [
           "line9",
-          0
+          9
         ],
         [
           "line10",
-          0
+          10
         ],
         [
           "line11",
-          0
+          20
         ],
         [
           "line12",
-          0
+          30
         ],
         [
           "line13",
-          0
+          30
         ],
         [
           "line14",
-          0
+          10
         ],
         [
           "line15",
-          0
+          20
         ],
         [
           "line16",
-          0
+          10
         ],
         [
           "line17",
-          0
+          20
         ]
       ],
       "hourDivided": [{
@@ -1067,7 +1067,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.calcData && nextProps.calcData.data) {
-      this.setState({...nextProps.calcData.data});
+      // this.setState({...nextProps.calcData.data});
     }
   }
 
@@ -1108,8 +1108,8 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       </div>
 
       <Table 
-        style={{ width: '100%' }} 
-        scroll={{ x: 2500 }} 
+        style={{ width: '100%', padding: '20px' }} 
+        scroll={{ x: 3000 }} 
         rowSelection={isMetaCenter ? rowSelection : null} 
         columns={this[Columns[selectedTable]]} 
         dataSource={_.get(this.props[DataType[selectedTable]], 'data')} 
@@ -1126,7 +1126,8 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         className='reports-review-modal'
       >
         <div className='reports-review' style={{ 
-          margin: 30
+          margin: 30,
+          color: '#ffffff'
           // display: 'flex', 
           // justifyContent: 'space-between' 
         }}>

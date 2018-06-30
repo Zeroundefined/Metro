@@ -20,10 +20,14 @@ export class MaterialCard extends React.Component<Props> {
       });
       conf.push({
         chart: {
-          spacing: [0, 20, 20, 0]
+          spacing: [0, 20, 20, 0],
+          backgroundColor : '#030B1E',
         },
         title: {
-          text: data[0]
+          text: data[0],
+          style: {
+            color: '#ffffff'
+          }
         },
         tooltip: {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -36,7 +40,7 @@ export class MaterialCard extends React.Component<Props> {
               enabled: true,
               format: '<b>{point.name}</b>: {point.percentage:.1f} %',
               style: {
-                color: 'black'
+                color: '#ffffff'
               }
             }
           }
@@ -46,19 +50,21 @@ export class MaterialCard extends React.Component<Props> {
           innerSize: '60%',
           name: '市场份额',
           data: materials
-        }]
+        }],
+        colors: ['#E09343', '#55F4F0', '#53BFFD']
       })
     })
     return conf;
   }
   render() {
-
-    var text = this.handleConf()
+    const { data: { thirdClass } } = this.props;
     return <Card className='material-card' title='物资模块' style={{ marginBottom: 30}}>
       {
+        Object.keys(thirdClass).length ? 
         this.handleConf().map(chart => {
           return <div style={{ minWidth: '220px', width: '50%' }}><ReactHighcharts config={chart} /></div>
-        })
+        }) :
+        <div>暂无物资数据</div>
       }
       {/*<
       ReactHighcharts config = {

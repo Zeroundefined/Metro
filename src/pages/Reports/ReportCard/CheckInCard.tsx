@@ -3,6 +3,7 @@ import * as ReactHighcharts from 'react-highcharts';
 import './CheckInCard.scss';
 import { Card } from 'src/components';
 import { relative } from 'path';
+import { Divider } from 'antd';
 
 interface Props {
   data: any
@@ -21,17 +22,34 @@ export class CheckInCard extends React.Component<Props> {
 
     const line = {
       chart: {
-        type: 'line'
+        type: 'column',
+        backgroundColor : '#030B1E',
       },
       title: {
-        text: '巡检信息'
+        text: '巡检信息',
+        style: {
+          color: '#ffffff'
+        }
       },
       xAxis: {
-        categories: categories
+        categories: categories,
+        lables: {
+          style: {
+            color: '#ffffff'
+          }
+        }
       },
       yAxis: {
         title: {
-          text: '巡检信息'
+          text: '巡检信息',
+          style: {
+            color: '#ffffff'
+          }
+        },
+        lables: {
+          style: {
+            color: '#ffffff'
+          }
         }
       },
       plotOptions: {
@@ -47,12 +65,19 @@ export class CheckInCard extends React.Component<Props> {
       series: [{
         name: '时间',
         data: datas
-      }]
+      }],
+      legend: {
+        itemStyle: {
+          color: '#ffffff'
+        }
+      },
+      colors: ['#63DFFB']
     }
 
     const cyclic = {
       chart: {
-        spacing: [40, 0, 40, 0]
+        spacing: [40, 0, 40, 0],
+        backgroundColor : '#030B1E',
       },
       title: {
         floating: true,
@@ -97,16 +122,24 @@ export class CheckInCard extends React.Component<Props> {
 
     return <div style={{marginBottom: 30}}>
       <Card className='equip-card' title='巡检信息'>
-        <div ><ReactHighcharts config={line} />
-          <div style={{padding: '20px 40px'}}>XX年XX月移动点巡检系统共计处理XX次点巡检作业，共计耗时XXXX分钟，平均每次巡检耗时XX分钟。</div>
-        </div>
-        
+        {hourDivided.length ?
+          <div style={{flex: 1}}><ReactHighcharts config={line} />
+            <div style={{padding: '20px 40px'}}>XX年XX月移动点巡检系统共计处理XX次点巡检作业，共计耗时XXXX分钟，平均每次巡检耗时XX分钟。</div>
+          </div>:
+          <div style={{flex: 1}}> 暂无巡检信息</div>
+        }
+        {
+          frequent && frequent[0].frequent ? 
           <div style={{ margin: '40px 0 0', textAlign: 'center', flex: 1, position: 'relative' }}>
             <div className="frequent" style={{fontSize: '60px', color: '#3cc5d4'}}>{frequent && frequent[0].frequent}</div>
             <div className="text" style={{fontSize: '30px', color: '#3cc5d4'}}>平均时长</div>
           <div style={{position: 'absolute', bottom: '0', padding: '20px 40px'}}>各线路点巡检数。。。。。平均耗时数。。。。</div>
-          
         </div>
+          :
+          <div style={{flex: 1}}>暂无平均时长信息</div>
+        }
+        
+          
       </Card>
     </div>
   }
