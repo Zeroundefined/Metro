@@ -1,8 +1,13 @@
 import * as React from 'react';
 import * as ReactHighcharts from 'react-highcharts';
 import './CheckInCard.scss';
+import { Card } from 'src/components';
+import { relative } from 'path';
 
-export class CheckInCard extends React.Component {
+interface Props {
+  data: any
+}
+export class CheckInCard extends React.Component<Props> {
   render() {
     const {data} = this.props;
     const { hourDivided, frequent } = data;
@@ -90,12 +95,19 @@ export class CheckInCard extends React.Component {
       }]
     }
 
-    return <div style={{display: 'flex'; height:'400px';}}>
-      <ReactHighcharts config={line} />
-      <div style={{margin: 'auto';}}>
-        <div className="frequent" style={{fontSize: '60px'; color: '#3cc5d4';}}>{frequent && frequent[0].frequent}</div>
-        <div className="text" style={{fontSize: '30px'; color: '#3cc5d4';}}>平均时长</div>
-      </div>
+    return <div style={{marginBottom: 30}}>
+      <Card className='equip-card' title='巡检信息'>
+        <div ><ReactHighcharts config={line} />
+          <div style={{padding: '20px 40px'}}>XX年XX月移动点巡检系统共计处理XX次点巡检作业，共计耗时XXXX分钟，平均每次巡检耗时XX分钟。</div>
+        </div>
+        
+          <div style={{ margin: '40px 0 0', textAlign: 'center', flex: 1, position: 'relative' }}>
+            <div className="frequent" style={{fontSize: '60px', color: '#3cc5d4'}}>{frequent && frequent[0].frequent}</div>
+            <div className="text" style={{fontSize: '30px', color: '#3cc5d4'}}>平均时长</div>
+          <div style={{position: 'absolute', bottom: '0', padding: '20px 40px'}}>各线路点巡检数。。。。。平均耗时数。。。。</div>
+          
+        </div>
+      </Card>
     </div>
   }
 }
