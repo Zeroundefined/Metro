@@ -24,397 +24,448 @@ enum Columns {
   'construction_information_result' = 'workingColumns',
   'facility_information_result' = 'equipColumns',
   'material_information_result' = 'materialColumns',
-  'polling_information_result' = 'checkInColumns'
+  'polling_information_result' = 'checkInColumns',
+  'breakdown_facility_origin' = 'originFaultColumns',
+  'construction_information_origin' = 'originWorkingColumns',
+  'facility_information_origin' = 'originEquipColumns',
+  'material_information_origin' = 'originMaterialColumns',
+  'polling_information_origin' = 'originCheckInColumns'
 }
 
 const dateFormat = 'YYYY/MM/DD';
 
 class Reports extends React.Component<RouteComponentProps<any, any> & typeof actions & InitState> {
-  faultColumns = [{
-    title: '日期',
-    dataIndex: 'date',
-    key: 'date',
+  /** 元数据表字段 */
+  originFaultColumns = [{
+    title: '发生日期',
+    dataIndex: 'datelabel',
+    key: 'datelabel',
     fixed: true,
     render: text => text.slice(0, 10),
     width: 150
   }, {
-    title: '时间段',
-    dataIndex: 'hour',
-    key: 'hour',
+    title: '发生时分',
+    dataIndex: 'time',
+    key: 'time',
     width: 150
   }, {
-    title: '一号线',
-    dataIndex: 'line1',
-    key: 'line1',
+    title: '故障序号',
+    dataIndex: 'fault_sequence',
+    key: 'fault_sequence',
+    fixed: true,
+    width: 150,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'fault_sequence') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'fault_sequence')} style={{ cursor: 'pointer' }}>{text}</div>
+  }, {
+    title: '故障线路',
+    dataIndex: 'line',
+    key: 'line',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line1') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line1')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '二号线',
-    dataIndex: 'line2',
-    key: 'line2',
+    title: '故障站点区间',
+    dataIndex: 'range',
+    key: 'range',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line2') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line2')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'range') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'range')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '三号线',
-    dataIndex: 'line3',
-    key: 'line3',
+    title: '故障设备',
+    dataIndex: 'facility',
+    key: 'facility',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line3') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line3')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'facility') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'facility')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '四号线',
-    dataIndex: 'line4',
-    key: 'line4',
+    title: '故障现象',
+    dataIndex: 'phenomenon',
+    key: 'phenomenon',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line4') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line4')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'phenomenon') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'phenomenon')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '五号线',
-    dataIndex: 'line5',
-    key: 'line5',
+    title: '故障处置延时',
+    dataIndex: 'receive_delay',
+    key: 'receive_delay',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line5') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line5')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'receive_delay') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'receive_delay')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '六号线',
-    dataIndex: 'line6',
-    key: 'line6',
+    title: '报修延时',
+    dataIndex: 'fix_delay',
+    key: 'fix_delay',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line6') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line6')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'fix_delay') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'fix_delay')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '七号线',
-    dataIndex: 'line7',
-    key: 'line7',
+    title: '接修延时',
+    dataIndex: 'repair_delay',
+    key: 'repair_delay',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line7') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line7')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'repair_delay') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'repair_delay')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '八号线',
-    dataIndex: 'line8',
-    key: 'line8',
+    title: '处理延时',
+    dataIndex: 'processing_delay',
+    key: 'processing_delay',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line8') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line8')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'processing_delay') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'processing_delay')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '九号线',
-    dataIndex: 'line9',
-    key: 'line9',
+    title: '闭环延时',
+    dataIndex: 'closed_loop_delay',
+    key: 'closed_loop_delay',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line9') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line9')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'closed_loop_delay') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'closed_loop_delay')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '十号线',
-    dataIndex: 'line10',
-    key: 'line10',
+    title: '报修单位',
+    dataIndex: 'report_company',
+    key: 'report_company',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line10') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line10')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'report_company') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'report_company')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '十一号线',
-    dataIndex: 'line11',
-    key: 'line11',
+    title: '处置状态',
+    dataIndex: 'status',
+    key: 'status',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line11') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line11')} style={{ cursor: 'pointer' }}>{text}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'status') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'status')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '十二号线',
-    dataIndex: 'line12',
-    key: 'line12',
+    title: '处置经过',
+    dataIndex: 'record',
+    key: 'record',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line12') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line12')} style={{ cursor: 'pointer' }}>{text}</div>
-  }, {
-    title: '十三号线',
-    dataIndex: 'line13',
-    key: 'line13',
-    width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line13') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line13')} style={{ cursor: 'pointer' }}>{text}</div>
-  }, {
-    title: '十四号线',
-    dataIndex: 'line14',
-    key: 'line14',
-    width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line14') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line14')} style={{ cursor: 'pointer' }}>{text}</div>
-  }, {
-    title: '十五号线',
-    dataIndex: 'line15',
-    key: 'line15',
-    width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line15') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line15')} style={{ cursor: 'pointer' }}>{text}</div>
-  }, {
-    title: '十六号线',
-    dataIndex: 'line16',
-    key: 'line16',
-    width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line16') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line16')} style={{ cursor: 'pointer' }}>{text}</div>
-  }, {
-    title: '十七号线',
-    dataIndex: 'line17',
-    key: 'line17',
-    width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line17') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line17')} style={{ cursor: 'pointer' }}>{text}</div>
-  }, {
-    title: '通信故障',
-    dataIndex: 'type_comm',
-    key: 'type_comm',
-    width: 120,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'type_comm') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'type_comm')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }, {
-    title: '网络故障',
-    dataIndex: 'type_net',
-    key: 'type_net',
-    width: 120,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'type_net') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'type_net')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }, {
-    title: '信号故障',
-    dataIndex: 'type_signal',
-    key: 'type_signal',
-    width: 120,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'type_signal') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'type_signal')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }, {
-    title: '其他故障',
-    dataIndex: 'type_other',
-    key: 'type_other',
-    width: 120,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'type_other') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'type_other')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }, {
-    title: '故障状态-已修复',
-    dataIndex: 'state_fixed',
-    key: 'state_fixed',
-    width: 125,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'state_fixed') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'state_fixed')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }, {
-    title: '故障状态-已完结',
-    dataIndex: 'state_closed',
-    key: 'state_closed',
-    width: 125,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'state_closed') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'state_closed')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }, {
-    title: '故障状态-新报修',
-    dataIndex: 'state_new',
-    key: 'state_new',
-    width: 125,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'state_new') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'state_new')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }, {
-    title: '故障状态-在处理',
-    dataIndex: 'state_processed',
-    key: 'state_processed',
-    width: 125,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'state_processed') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'state_processed')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'record') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'record')} style={{ cursor: 'pointer' }}>{text}</div>
   }];
-  workingColumns = [
+  originWorkingColumns = [
     {
       title: '日期',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
       fixed: true,
       render: text => text.slice(0, 10),
       width: 150
     }, {
-      title: '时间段',
-      dataIndex: 'hour',
-      key: 'hour',
+      title: '计划编号',
+      dataIndex: 'plan_id',
+      key: 'plan_id',
       width: 100
     }, {
-      title: '兑现率',
-      dataIndex: 'construction_reach_ratio',
-      key: 'construction_reach_ratio',
+      title: '线路编号',
+      dataIndex: 'line',
+      key: 'line',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_reach_ratio') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_reach_ratio')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
     }, {
-      title: '工时利用率',
-      dataIndex: 'construction_hour_ratio',
-      key: 'construction_hour_ratio',
+      title: '区域类别',
+      dataIndex: 'distinct_type',
+      key: 'distinct_type',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_hour_ratio') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_hour_ratio')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'distinct_type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'distinct_type')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
     }, {
-      title: '变更率',
-      dataIndex: 'construction_update_ratio',
-      key: 'construction_update_ratio',
+      title: '计划类别',
+      dataIndex: 'plan_type',
+      key: 'plan_type',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_update_ratio') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_update_ratio')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_type')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
     }, {
-      title: '违规项',
-      dataIndex: 'construction_illegal',
-      key: 'construction_illegal',
+      title: '车站名称',
+      dataIndex: 'station_name',
+      key: 'station_name',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_illegal') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_illegal')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'station_name') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'station_name')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
     }, {
-      title: '施工数量',
-      dataIndex: 'construction_num',
-      key: 'construction_num',
+      title: '施工负责人姓名',
+      dataIndex: 'station_worker_name',
+      key: 'station_worker_name',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'station_worker_name') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'station_worker_name')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
     }, {
-      title: '一号线',
-      dataIndex: 'line1',
-      key: 'line1',
+      title: '计划起始时间',
+      dataIndex: 'plan_start_time',
+      key: 'plan_start_time',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line1') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line1')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_start_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_start_time')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '二号线',
-      dataIndex: 'line2',
-      key: 'line2',
+      title: '计划终止时间',
+      dataIndex: 'plan_end_time',
+      key: 'plan_end_time',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line2') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line2')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_end_time')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '三号线',
-      dataIndex: 'line3',
-      key: 'line3',
+      title: '计划用时',
+      dataIndex: 'plan_hour',
+      key: 'plan_hour',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line3') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line3')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_hour') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_hour')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '四号线',
-      dataIndex: 'line4',
-      key: 'line4',
+      title: '施工类别',
+      dataIndex: 'construction_type',
+      key: 'construction_type',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line4') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line4')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_type')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '五号线',
-      dataIndex: 'line5',
-      key: 'line5',
+      title: '登记站点名称',
+      dataIndex: 'load_station_name',
+      key: 'load_station_name',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line5') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line5')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'load_station_name') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'load_station_name')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '六号线',
-      dataIndex: 'line6',
-      key: 'line6',
+      title: '施工详细说明',
+      dataIndex: 'construction_report',
+      key: 'construction_report',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line6') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line6')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_report') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_report')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '七号线',
-      dataIndex: 'line7',
-      key: 'line7',
+      title: '是否停电',
+      dataIndex: 'ispower',
+      key: 'ispower',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line7') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line7')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'ispower') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'ispower')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '八号线',
-      dataIndex: 'line8',
-      key: 'line8',
+      title: '计划状态',
+      dataIndex: 'plan_status',
+      key: 'plan_status',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line8') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line8')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_status') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_status')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '九号线',
-      dataIndex: 'line9',
-      key: 'line9',
+      title: '实际开始时间',
+      dataIndex: 'original_start_time',
+      key: 'original_start_time',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line9') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line9')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'original_start_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'original_start_time')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '十号线',
-      dataIndex: 'line10',
-      key: 'line10',
+      title: '实际结束时间',
+      dataIndex: 'original_end_time',
+      key: 'original_end_time',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line10') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line10')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'original_end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'original_end_time')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '十一号线',
-      dataIndex: 'line11',
-      key: 'line11',
+      title: '实际用时',
+      dataIndex: 'original_usetime',
+      key: 'original_usetime',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line11') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line11')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'original_usetime') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'original_usetime')} style={{ cursor: 'pointer' }}>{text}</div>
     }, {
-      title: '十二号线',
-      dataIndex: 'line12',
-      key: 'line12',
+      title: '违规',
+      dataIndex: 'job_type',
+      key: 'job_type',
       width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line12') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line12')} style={{ cursor: 'pointer' }}>{text}</div>
-    }, {
-      title: '十三号线',
-      dataIndex: 'line13',
-      key: 'line13',
-      width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line13') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line13')} style={{ cursor: 'pointer' }}>{text}</div>
-    }, {
-      title: '十四号线',
-      dataIndex: 'line14',
-      key: 'line14',
-      width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line14') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line14')} style={{ cursor: 'pointer' }}>{text}</div>
-    }, {
-      title: '十五号线',
-      dataIndex: 'line15',
-      key: 'line15',
-      width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line15') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line15')} style={{ cursor: 'pointer' }}>{text}</div>
-    }, {
-      title: '十六号线',
-      dataIndex: 'line16',
-      key: 'line16',
-      width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line16') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line16')} style={{ cursor: 'pointer' }}>{text}</div>
-    }, {
-      title: '十七号线',
-      dataIndex: 'line17',
-      key: 'line17',
-      width: 100,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line17') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line17')} style={{ cursor: 'pointer' }}>{text}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'job_type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'job_type')} style={{ cursor: 'pointer' }}>{text}</div>
     }
   ];
-
-  equipColumns = [{
-    title: '日期',
-    dataIndex: 'date',
-    key: 'date',
+  originEquipColumns = [
+  {
+    title: '启用日期',
+    dataIndex: 'datelabel',
+    key: 'datelabel',
     fixed: true,
     render: text => text.slice(0, 10),
     width: 150
   }, {
-    title: '通信大类',
-    dataIndex: 'first_class',
-    key: 'first_class',
+    title: '线路',
+    dataIndex: 'line',
+    key: 'line',
     width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '通信小类',
-    dataIndex: 'third_class',
-    key: 'third_class',
+    title: '位置',
+    dataIndex: 'position',
+    key: 'position',
     width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'position') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'position')} style={{ cursor: 'pointer' }}>{text}</div>
   }, {
-    title: '占比',
-    dataIndex: 'third_class_ratio',
-    key: 'third_class_ratio',
+    title: '位置描述',
+    dataIndex: 'describ',
+    key: 'describ',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'third_class_ratio') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'third_class_ratio')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'describ') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'describ')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '一级',
+    dataIndex: 'level_01',
+    key: 'level_01',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'level_01') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'level_01')} style={{ cursor: 'pointer' }}>{text}</div>
+  }, {
+    title: '二级',
+    dataIndex: 'level_02',
+    key: 'level_02',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'level_02') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'level_02')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '三级',
+    dataIndex: 'level_03',
+    key: 'level_03',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'level_03') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'level_03')} style={{ cursor: 'pointer' }}>{text}</div>
+  }, {
+    title: '四级',
+    dataIndex: 'level_04',
+    key: 'level_04',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'level_04') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'level_04')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '五级',
+    dataIndex: 'level_05',
+    key: 'level_05',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'level_05') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'level_05')} style={{ cursor: 'pointer' }}>{text}</div>
+  }, {
+    title: '六级',
+    dataIndex: 'level_06',
+    key: 'level_06',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'level_06') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'level_06')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '设备名称',
+    dataIndex: 'facility_name',
+    key: 'facility_name',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'facility_name') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'facility_name')} style={{ cursor: 'pointer' }}>{text}</div>
+  }, {
+    title: '管理粒度',
+    dataIndex: 'granularity',
+    key: 'granularity',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'granularity') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'granularity')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '设备数量',
+    dataIndex: 'facility_num',
+    key: 'facility_num',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'facility_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'facility_num')} style={{ cursor: 'pointer' }}>{text}</div>
+  }, {
+    title: '规格型号',
+    dataIndex: 'model',
+    key: 'model',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'model') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'model')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '制造厂商',
+    dataIndex: 'manufacturer',
+    key: 'manufacturer',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'manufacturer') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'manufacturer')} style={{ cursor: 'pointer' }}>{text}</div>
+  }, {
+    title: '计量单位',
+    dataIndex: 'unit',
+    key: 'unit',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'unit') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'unit')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '安装地点',
+    dataIndex: 'location',
+    key: 'location',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'location') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'location')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }
+];
+  originMaterialColumns = [{
+    title: '日期',
+    dataIndex: 'datelabel',
+    key: 'datelabel',
+    fixed: true,
+    render: text => text.slice(0, 10),
+    width: 150
+  }, {
+    title: 'c码',
+    dataIndex: 'material_id',
+    key: 'material_id',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'material_id') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'material_id')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '名称',
+    dataIndex: 'name',
+    key: 'name',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'name') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'name')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '专业',
+    dataIndex: 'major',
+    key: 'major',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'major') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'major')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '系统',
+    dataIndex: 'system',
+    key: 'system',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'system') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'system')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '设备',
+    dataIndex: 'facility',
+    key: 'facility',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'facility') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'facility')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '入库时间',
+    dataIndex: 'in_time',
+    key: 'in_time',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'in_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'in_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '领用时间',
+    dataIndex: 'use_time',
+    key: 'use_time',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'use_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'use_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '物资属性',
+    dataIndex: 'material_type',
+    key: 'material_type',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'material_type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'material_type')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '部门',
+    dataIndex: 'department',
+    key: 'department',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'department') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'department')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '数量',
+    dataIndex: 'number',
+    key: 'number',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }];
-
-  materialColumns = [{
+  originCheckInColumns= [
+  {
     title: '日期',
-    dataIndex: 'date',
-    key: 'date',
+    dataIndex: 'datelabel',
+    key: 'datelabel',
     fixed: true,
     render: text => text.slice(0, 10),
     width: 150
   }, {
-    title: '通信大类',
-    dataIndex: 'first_class',
-    key: 'first_class',
+    title: '开始时间',
+    dataIndex: 'begin_time',
+    key: 'begin_time',
     width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'begin_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'begin_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }, {
-    title: '通信小类',
-    dataIndex: 'third_class',
-    key: 'third_class',
+    title: '结束时间',
+    dataIndex: 'end_time',
+    key: 'end_time',
     width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'end_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }, {
-    title: '占比',
-    dataIndex: 'third_class_ratio',
-    key: 'third_class_ratio',
+    title: '线路',
+    dataIndex: 'line',
+    key: 'line',
     width: 100,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'third_class_ratio') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'third_class_ratio')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
-  }];
-
-  checkInColumns= [{
-    title: '日期',
-    dataIndex: 'date',
-    key: 'date',
-    fixed: true,
-    render: text => text.slice(0, 10),
-    width: 150
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }, {
-    title: '时间段',
-    dataIndex: 'hour',
-    key: 'hour',
-    width: 100
+    title: '站点',
+    dataIndex: 'charge',
+    key: 'charge',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'charge') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'charge')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }, {
-    title: '巡检次数',
+    title: '巡检人',
+    dataIndex: 'worker',
+    key: 'worker',
+    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'worker') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'worker')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+  }, {
+    title: '巡检时长',
     dataIndex: 'duration',
     key: 'duration',
     width: 100,
-  }, {
-    title: '平均巡检时长',
-    dataIndex: 'frequent',
-    key: 'frequent',
-    width: 100,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'duration') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'duration')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }];
 
+  /** 结果表字段 */
   state = {
     review: false,
     editingItem: {} as any,
@@ -950,12 +1001,14 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
   }
 
   componentDidMount() {
-    const { getResultTables, getData } = this.props;
+    const { getResultTables, getOriginTables , getData, location: { pathname } } = this.props;
     const { timeRange, keyword } = this.state;
-    (getResultTables() as any).then(data => {
+    const isMetaCenter = pathname.indexOf('metaCenter') > 0;
+    const request  = isMetaCenter ? getOriginTables : getResultTables;
+    (request() as any).then(data => {
       this.setState({
         selectedTable: data.data[0],
-        searchedField: _.reject(this[Columns[data.data[0]]], { key: 'date' })[0].key
+        searchedField: _.reject(this[Columns[data.data[0]]], { key: 'datelabel' })[0].key
       })
       data.data.forEach(table => {
         getData(table, timeRange, this[Columns[data.data[0]]][0].key, keyword);
@@ -1020,7 +1073,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
   handleTableChange = (value) => {
     this.setState({
       selectedTable: value,
-      searchedField: _.reject(this[Columns[value]], { key: 'date' })[0].key
+      searchedField: _.reject(this[Columns[value]], { key: 'datelabel' })[0].key
     })
   }
 
@@ -1049,18 +1102,15 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
   }
 
   renderTables() {
-    const { resultTables, location: { pathname } } = this.props;
-    /** 报表管理页面 */
-    if (pathname.indexOf('reports') > -1) {
-      return (_.get(resultTables, 'data') || []).map(table => <Option key={table}>{table}</Option>)
-    }
-
-    return null;
+    const { resultTables, originTables ,location: { pathname } } = this.props;
+    const isMetaCenter = pathname.indexOf('metaCenter') > 0;
+    const tables  = isMetaCenter ? originTables : resultTables;
+    return (_.get(tables, 'data') || []).map(table => <Option key={table}>{table}</Option>)
   }
 
   renderOptions() {
     const { selectedTable } = this.state;
-    return selectedTable && _.reject(this[Columns[selectedTable]], { key: 'date' }).map(item => {
+    return selectedTable && _.reject(this[Columns[selectedTable]], { key: 'datelabel' }).map(item => {
       return <Option key={item.key}>{item.key}</Option>
     })
   }
@@ -1074,7 +1124,6 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
   render() {
     const { review, selectedTable, timeRange, keyword, searchedField } = this.state;
     const { location: { pathname }, faultData, workingData, equipData, materialData, checkInData, calcData } = this.props;
-    console.log(this.props);
     const isMetaCenter = pathname.indexOf('metaCenter') > 0;
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
