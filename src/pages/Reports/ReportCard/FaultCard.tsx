@@ -6,6 +6,7 @@ import {
 import {linesList, hoursList} from '../../../constant/tableConst';
 interface Props {
   data: any
+  timeRange: any;
 }
 
 

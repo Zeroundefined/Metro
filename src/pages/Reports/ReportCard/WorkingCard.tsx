@@ -7,6 +7,7 @@ import {linesList, hoursList} from '../../../constant/tableConst';
 
 interface Props {
   data: any;
+  timeRange: any;
 }
 
 export class WorkingCard extends React.Component<Props> {

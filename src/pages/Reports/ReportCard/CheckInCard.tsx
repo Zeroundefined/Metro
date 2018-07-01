@@ -8,6 +8,7 @@ import {hoursList} from '../../../constant/tableConst';
 
 interface Props {
   data: any
+  timeRange: any
 }
 export class CheckInCard extends React.Component<Props> {
   render() {
