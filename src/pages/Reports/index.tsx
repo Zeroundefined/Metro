@@ -20,15 +20,25 @@ const mapStateToProps = (state) => ({
 })
 
 enum Columns {
+  /** 结果表字段*/
   'material_information_result' = 'resultMaterialColumns',
   'polling_avg_duration_result' = 'resultPollingAvgDurationColumns',
   'polling_num_hour_result' = 'resultPollingNumHourColumns',
   'polling_num_result' = 'resultPollingNumColumns',
-  // 'breakdown_facility_result' = 'faultColumns',
-  // 'construction_information_result' = 'workingColumns',
-  // 'facility_information_result' = 'equipColumns',
-  // 'polling_information_result' = 'checkInColumns',
+  'construction_cashing_rate_result' = 'resultConstructionCashingRateColumns',
+  'construction_utilization_ratio_result' = 'resultConstructionUtilizationRateColumns',
+  'construction_change_rate_result' = 'resultConstructionChangeRateColumns',
+  'construction_irregularities_result' = 'resultConstructionIrregularitiesColumns',
+  'construction_line_result' = 'resultConstructionLineColumns',
+  'facility_class_sum_result' = 'resultFacilityClassSumColumns',
+  'breakdown_facility_01_result' = 'resultBreakdownFacility01Columns',
+  'breakdown_facility_02_result' = 'resultBreakdownFacility02Columns',
+  'breakdown_type_ratio_result' = 'resultBreakdownTypeRatioColumns',
+  'breakdown_statu_result' = 'resultBreakdownStatuColumns',
+  'breakdown_24h_sum_result' = 'resultBreakdown24hSumColumns',
+  'breakdown_line_sum_result' = 'resultBreakdownLineSumColumns',
 
+  /** 元数据表字段*/
   'breakdown_facility_origin' = 'originFaultColumns',
   'construction_information_origin' = 'originWorkingColumns',
   'facility_information_origin' = 'originEquipColumns',
@@ -37,15 +47,25 @@ enum Columns {
 }
 
 enum TableDict {
+  /** 结果表名*/
   'material_information_result' = '物资信息',
   'polling_avg_duration_result' = '巡检信息--巡检时长',
   'polling_num_hour_result' = '巡检信息--巡检次数--分时',
   'polling_num_result' = '巡检信息--巡检次数',
-  // 'breakdown_facility_result' = 'faultColumns',
-  // 'construction_information_result' = 'workingColumns',
-  // 'facility_information_result' = 'equipColumns',
-  // 'material_information_result' = 'materialColumns',
-  // 'polling_information_result' = 'checkInColumns',
+  'construction_cashing_rate_result' = '施工信息--施工计划兑现率',
+  'construction_utilization_ratio_result' = '施工信息--施工计划工时利用率',
+  'construction_change_rate_result' = '施工信息--施工计划变更率',
+  'construction_irregularities_result' = '施工信息--施工违规项',
+  'construction_line_result' = '施工信息--分线路施工数量',
+  'facility_class_sum_result' = '设备信息',
+  'breakdown_facility_01_result' = '故障信息-晚点',
+  'breakdown_facility_02_result' = '故障信息-道岔',
+  'breakdown_type_ratio_result' = '故障信息-类型占比',
+  'breakdown_statu_result' = '故障信息-处置状态',
+  'breakdown_24h_sum_result' = '故障信息—24小时故障',
+  'breakdown_line_sum_result' = '故障信息—分线路故障',
+
+  /** 元数据表名*/
   'breakdown_facility_origin' = '故障信息元数据表',
   'construction_information_origin' = '施工信息元数据表',
   'facility_information_origin' = '设备信息元数据表',
@@ -584,8 +604,247 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
     }
   ];
-  
-  
+  resultConstructionCashingRateColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '类型',
+      dataIndex: 'type',
+      key: 'type',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'type')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'number',
+      key: 'number',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultConstructionUtilizationRateColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '数量',
+      dataIndex: 'ratio',
+      key: 'ratio',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'ratio') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'ratio')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultConstructionChangeRateColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '数量',
+      dataIndex: 'number',
+      key: 'number',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ];
+  resultConstructionIrregularitiesColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '数量',
+      dataIndex: 'number',
+      key: 'number',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultConstructionLineColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '线路',
+      dataIndex: 'line',
+      key: 'line',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '时段',
+      dataIndex: 'hour',
+      key: 'hour',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'hour') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'hour')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'number',
+      key: 'number',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ];
+  resultFacilityClassSumColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '线路',
+      dataIndex: 'line',
+      key: 'line',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '大类',
+      dataIndex: 'first_type',
+      key: 'first_type',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'first_typ') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'first_typ')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '小类',
+      dataIndex: 'secd_type',
+      key: 'secd_type',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'secd_type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'secd_type')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'number',
+      key: 'number',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ];
+  resultBreakdownFacility01Columns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '数量',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ];
+  resultBreakdownFacility02Columns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '数量',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultBreakdownTypeRatioColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '类型',
+      dataIndex: 'type',
+      key: 'type',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'type') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'type')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultBreakdownStatuColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'status') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'status')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultBreakdown24hSumColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '时段',
+      dataIndex: 'hour',
+      key: 'hour',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'hour') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'hour')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+  resultBreakdownLineSumColumns = [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      width: 150,
+    }, {
+      title: '线路',
+      dataIndex: 'line',
+      key: 'line',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'line') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'line')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '数量',
+      dataIndex: 'num',
+      key: 'num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }
+  ]
+
   state = {
     review: false,
     editingItem: {} as any,
