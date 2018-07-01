@@ -142,7 +142,7 @@ const getCalcData = (timeRange) => {
   }
 }
 
-const screenshot = (content) => {
+const screenshot = (content, width, height) => {
   return () => {
     return fetch(`${url}/screenshot`, {
       credentials: "include",
@@ -152,6 +152,8 @@ const screenshot = (content) => {
       method: 'POST',
       body: JSON.stringify({
         content,
+        width,
+        height
       }),
     }).then((res) => res.json()).then(data => {
       if (data.errMsg) {

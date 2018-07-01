@@ -1346,8 +1346,12 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
   handleSubmit = () => {
     /** 导出报表 */
     const { screenshot } = this.props;
-    
-    (screenshot(document.querySelector('.reports-review').outerHTML) as any).then(data => {
+    const target = document.querySelector('.reports-review');
+    (screenshot(
+      target.outerHTML,
+      target.getBoundingClientRect().width,
+      target.getBoundingClientRect().height
+    ) as any).then(data => {
       if(!data.errMsg) {
         window.open(`${url}/download`, '_blank');
       }

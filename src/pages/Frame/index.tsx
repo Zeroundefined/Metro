@@ -4,16 +4,16 @@ import { Menu, Icon, Avatar, Popover } from 'antd';
 import { env } from '../../utils/isLogin';
 import './Frame.scss';
 const MenuItemGroup = Menu.ItemGroup;
-import * as ICON1 from '../../img/icons-11.png'; 
-import * as ICON2 from '../../img/icons-12.png'; 
-import * as ICON3 from '../../img/icons-13.png'; 
+// import * as ICON1 from '../../img/icons-11.png'; 
+// import * as ICON2 from '../../img/icons-12.png'; 
+// import * as ICON3 from '../../img/icons-13.png'; 
 
 export default class Frame extends React.Component<RouteComponentProps<any, any>> {
   state = {
     types: {
-      "/metaCenter": {title: '元数据中心', icon_type: 'database', title_icon: ICON1},
-      "/reports": {title: '报表管理', icon_type: 'area-chart', title_icon: ICON2},
-      "/logs": {title: '日志管理', icon_type: 'profile', title_icon: ICON3}
+      "/metaCenter": {title: '元数据中心', icon_type: 'database', title_icon: ''},
+      "/reports": {title: '报表管理', icon_type: 'area-chart', title_icon: ''},
+      "/logs": {title: '日志管理', icon_type: 'profile', title_icon: ''}
     }
   }
 
@@ -65,8 +65,8 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
         <div className="container">
           <div className="container-title">
             {/* <div style={{background: !types[pathname] ? '' : `url(${types[pathname]['title_icon']})`}}></div> */}
-            <img src={types[pathname].title_icon} alt=""/>
-            <span className="container-title">{this.state.types[pathname] && this.state.types[pathname].title}</span>
+            {/* <img src={types[pathname] && types[pathname].title_icon} alt=""/> */}
+            <span className="container-title">{types[pathname] && types[pathname].title}</span>
           </div>
           {this.props.children}
         </div>
