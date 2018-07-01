@@ -5,6 +5,7 @@ const prefix = 'login/';
 const login = (userName: string, password: string) => {
   return (dispatch) => {
     return fetch(`${url}/login`, {
+      credentials: "include",
       headers: { 
         "Content-Type": "application/json"
       },

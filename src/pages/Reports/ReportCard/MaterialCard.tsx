@@ -11,12 +11,12 @@ interface Props {
 
 export class MaterialCard extends React.Component<Props> {
   handleConf = () => {
-    const { data: { thirdClass } } = this.props;
+    const { data } = this.props;
     let conf = [];
-    thirdClass && Object.entries(thirdClass).map(data => {
+    data && Object.entries(data).map(list => {
       let materials = [];
-      (data[1] as any).map(item => {
-        materials.push([item.third_class, item.ratio * 100])
+      (list[1] as any).map(item => {
+        materials.push([item.staut, item.ratio])
       });
       conf.push({
         chart: {
@@ -24,7 +24,7 @@ export class MaterialCard extends React.Component<Props> {
           backgroundColor : '#030B1E',
         },
         title: {
-          text: data[0],
+          text: list[0],
           style: {
             color: '#ffffff'
           }
@@ -57,14 +57,14 @@ export class MaterialCard extends React.Component<Props> {
     return conf;
   }
   render() {
-    const { data: { thirdClass } } = this.props;
+    const { data } = this.props;
     return <Card className='material-card' title='物资模块' style={{ marginBottom: 30}}>
       {
-        Object.keys(thirdClass).length ? 
+        Object.keys(data).length ? 
         this.handleConf().map(chart => {
           return <div style={{ minWidth: '220px', width: '50%' }}><ReactHighcharts config={chart} /></div>
         }) :
-        <div>暂无物资数据</div>
+        <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f'}}>暂无物资数据</div>
       }
       {/*<
       ReactHighcharts config = {

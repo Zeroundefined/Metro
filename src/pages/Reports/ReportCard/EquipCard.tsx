@@ -77,7 +77,7 @@ export class EquipCard extends React.Component<Props> {
             <ReactHighcharts config={data}/>
           </div> 
     }) : 
-    <div>暂无设备模块信息</div>
+    <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f'}}>暂无设备模块信息</div>
     }
     </Card>
     </div>

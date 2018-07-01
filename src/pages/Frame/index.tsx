@@ -61,7 +61,8 @@ export default class Frame extends React.Component<RouteComponentProps<any, any>
         </div>
         <div className="container">
           <div className="container-title">
-            <div style={{background: !types[pathname] ? '' : `url(${types[pathname]['title_icon']})`}}></div>
+            {/* <div style={{background: !types[pathname] ? '' : `url(${types[pathname]['title_icon']})`}}></div> */}
+            <img src={types[pathname].title_icon} alt=""/>
             <span className="container-title">{this.state.types[pathname] && this.state.types[pathname].title}</span>
           </div>
           {this.props.children}
