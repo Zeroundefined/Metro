@@ -953,6 +953,8 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       "hourRatio": 0,
       "updateRatio": null,
       "illegal": 1,
+      "workingActual": 100,
+      "workingTotal": 100,
       "lineDivided": [{
           "line": "00",
           "count": 96
@@ -1470,12 +1472,13 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
           {/*<div className='left-part' style={{ width: 550 }}>*/}
             <EquipCard data={this.state.equip || {}} />
             <MaterialCard data={this.state.material || {}}/>
-            <CheckInCard data={this.state.polling || {}}/>
+            <CheckInCard data={this.state.polling || {}} timeRange={timeRange} />
           {/*</div>*/}
           {/*<div className='right-part' style={{ width: 550 }}>*/}
-            {<WorkingCard data={this.state.working || {}} />}
+            {<WorkingCard data={this.state.working || {}} timeRange={timeRange} />}
             {<FaultCard 
               data = {this.state.fault || {}}
+              timeRange={timeRange}
               // data={_.get(faultData, 'data')} 
               />}
           {/*</div>*/}

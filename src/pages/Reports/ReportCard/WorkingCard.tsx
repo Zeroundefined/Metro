@@ -148,7 +148,7 @@ export class WorkingCard extends React.Component<Props> {
       linesList.map(line => {
         let currentLine = lineDivided.find(item => item.line == line.id);
         list.push(currentLine ? currentLine['count'] : '0')
-        lineWorking.push(`${line.name}${currentLine ? currentLine['count'] : '0'}`)
+        lineWorking.push(`${line.name}${currentLine ? currentLine['count'] : '0'}起`)
       })
     }
 
@@ -194,7 +194,7 @@ export class WorkingCard extends React.Component<Props> {
         data: list,
       }],
       colors: ['#CE0000', '#8BCB1F', '#FECD06', '#502E84', '#9A52A4', '#E80378', '#F66F15', '#089BDE', '#7DC8E8', '#B1A0C4', '#8E162F', '#03795F', '#E794BF', '#89CFBD', '#BB786F']
-    }, lineWorking.join(',')]
+    }, lineWorking.join('， ')]
   }
 
   handleHourDividedConfig = () => {
@@ -250,8 +250,10 @@ export class WorkingCard extends React.Component<Props> {
 
 
   render() {
-    const { data } = this.props;
-    const {reachRatio, hourRatio, updateRatio, illegal, hourDivided} = data;
+    const { data, timeRange } = this.props;
+    const {reachRatio, hourRatio, updateRatio, illegal, hourDivided, workingActual} = data;
+    let fromDate = new Date(timeRange[0]).toLocaleDateString();
+    let toDate = new Date(timeRange[1]).toLocaleDateString();
     let [LineDividedConfig, lineWorking] = this.handleLineDividedConfig();
     return <Card className='working-card' title='施工模块' style={{ marginBottom: 30}}>
       <div style={{minWidth: '220px', width: '50%'}}>
@@ -275,7 +277,7 @@ export class WorkingCard extends React.Component<Props> {
       <div style={{minWidth: '220px', width: '50%'}}>
       {illegal ?
         <div className="illegal" style={{textAlign: 'center', margin: 'auto', minHeight: '220px'}}>
-          <div className="text" style={{color: '#333333', fontSize: '18px'}}>施工违规项</div>
+          <div className="text" style={{color: '#ffffff', fontSize: '18px'}}>施工违规项</div>
           <div className="content" style={{color: '#3cc5d4', marginTop: '40px', fontSize: '30px'}}>
             违规施工<span style={{margin: '0 10px', fontSize: '50px', color: '#f5be25'}}>{data.illegal}</span>起</div>
         </div>:
@@ -291,10 +293,17 @@ export class WorkingCard extends React.Component<Props> {
         {hourDivided && hourDivided.length ?
           <div>
             <ReactHighcharts config={this.handleHourDividedConfig()} />
-            <div style={{padding: '20px 40px'}}>XX年XX月施工管理系统共办理XX起施工，其中日常巡检施工XX起，项目施工XX起，二级重大施工XX起。施工兑现率XX，工时利用率XX，实施规范率XX，计划变更率XX。</div>
           </div> :
           <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工数量</div>
         }
+            <div style={{padding: '20px 40px'}}>
+              {fromDate}-{toDate}施工管理系统共办理{workingActual || 0}起施工
+              {/* ，其中日常巡检施工XX起，项目施工XX起，二级重大施工XX起 */}
+              。施工兑现率{reachRatio ? (reachRatio * 100).toFixed(2): 0}%，
+              工时利用率{hourRatio ? (hourRatio * 100).toFixed(2): 0}%，
+              实施规范率{hourRatio ? (hourRatio * 100).toFixed(2): 0}%，
+              计划变更率{updateRatio ? (updateRatio * 100).toFixed(2): 0}%。
+            </div>
       </div>
     </Card>
   }

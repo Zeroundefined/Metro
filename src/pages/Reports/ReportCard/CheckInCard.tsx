@@ -11,7 +11,9 @@ interface Props {
 }
 export class CheckInCard extends React.Component<Props> {
   render() {
-    const {data} = this.props;
+    const {data, timeRange} = this.props;
+    let fromDate = new Date(timeRange[0]).toLocaleDateString();
+    let toDate = new Date(timeRange[1]).toLocaleDateString();
     const { hourDivided, duration, count } = data;
     let categories = [];
     let datas =[];
@@ -126,7 +128,8 @@ export class CheckInCard extends React.Component<Props> {
       <Card className='equip-card' title='巡检信息'>
         {hourDivided && hourDivided.length ?
           <div style={{flex: 1}}><ReactHighcharts config={line} />
-            <div style={{padding: '20px 40px'}}>XX年XX月移动点巡检系统共计处理XX次点巡检作业，共计耗时XXXX分钟，平均每次巡检耗时XX分钟。</div>
+            <div style={{padding: '20px 40px'}}>
+            </div>
           </div>:
           <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无巡检信息</div>
         }
@@ -136,7 +139,9 @@ export class CheckInCard extends React.Component<Props> {
             <div className="frequent" style={{fontSize: '60px', color: '#3cc5d4'}}>{duration}</div>
             <div className="text" style={{fontSize: '30px'}}>平均时长</div>
             <div>今日移动巡检共 {count || 0} 起</div>
-          <div style={{position: 'absolute', bottom: '0', padding: '20px 40px'}}>各线路点巡检数。。。。。平均耗时数。。。。</div>
+          <div style={{position: 'absolute', bottom: '0', padding: '20px 40px'}}>
+            {fromDate}-{toDate}移动点巡检系统共计处理{count || 0}次点巡检作业，共计耗时{((count || 0)*(duration || 0)).toFixed(2)}分钟，平均每次巡检耗时{duration}分钟。
+          </div>
         </div>
           :
           <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f'}}>暂无平均时长信息</div>

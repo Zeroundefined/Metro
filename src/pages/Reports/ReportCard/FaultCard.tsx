@@ -19,8 +19,9 @@ export class FaultCard extends React.Component < Props > {
       data
     } = this.props;
     const faultType = data.faultType || [];
-    const total = faultType.reduce((tol, cur) => tol + cur[1], 0)
+    const total = faultType.reduce((tol, cur) => tol + cur.count, 0)
     const final = [];
+    let text = [];
     faultType.map(type => {
       // if (type[0] == 'type_comm') {
       //   final.push(['故障类型-通信类', type[1] / total]);
@@ -35,9 +36,11 @@ export class FaultCard extends React.Component < Props > {
       //   final.push(['故障类型-其他类', type[1] / total]);
       // }
       final.push([type.type, type.count]);
+      text.push(`${type.type}故障${type.count}起， `)
+
     })
 
-    return {
+    return [{
       chart: {
         spacing: [40, 0, 40, 0],
         backgroundColor : '#030B1E'
@@ -72,7 +75,7 @@ export class FaultCard extends React.Component < Props > {
         data: final
       }],
       colors: ['#9A52A4', '#E4A15A', '#CA476F', '#68A788']
-    }
+    }, total, text]
   }
 
   handle24HourConfig = () => {
@@ -129,6 +132,8 @@ export class FaultCard extends React.Component < Props > {
       data
     } = this.props;
     const final = [];
+    let total = 0;
+    let success = 0;
     const faultHandle = data.faultHandle;
     faultHandle && faultHandle.map(handle => {
       // if (handle[0] == 'state_closed') {
@@ -144,12 +149,15 @@ export class FaultCard extends React.Component < Props > {
       //   final.push(['故障状态-在处理', handle[1]]);
       // }
         final.push([handle.status, handle.count]);
-
+        if(handle.status == '已修复' ||handle.status == '已完结') {
+          success += handle.count;
+        }
+        total += handle.count;
     })
 
 
 
-    return {
+    return [{
       chart: {
         spacing: [40, 0, 40, 0],
         backgroundColor : '#030B1E'
@@ -177,7 +185,7 @@ export class FaultCard extends React.Component < Props > {
         name: '故障处理状态',
         data: final
       }]
-    }
+    }, ((success/total)*100).toFixed(2)]
   }
 
   handleLineFaultConfig = () => {
@@ -194,7 +202,7 @@ export class FaultCard extends React.Component < Props > {
       linesList.map(line => {
         let currentLine = lineDivided.find(item => item.line == line.name);
         final.push(currentLine ? currentLine['count'] : '0')
-        lineFault.push(`${line.name}${currentLine ? currentLine['count'] : '0'}`)
+        lineFault.push(`${line.name}${currentLine ? currentLine['count'] : '0'}起`)
       })
     }
 
@@ -236,17 +244,22 @@ export class FaultCard extends React.Component < Props > {
         data: final
       }],
       colors: ['#CE0000', '#8BCB1F', '#FECD06', '#502E84', '#9A52A4', '#E80378', '#F66F15', '#089BDE', '#7DC8E8', '#B1A0C4', '#8E162F', '#03795F', '#E794BF', '#89CFBD', '#BB786F']
-    }, lineFault]
+    }, lineFault.join('， ')]
   }
 
 
   render() {
     const {
-      data
+      data,
+      timeRange
     } = this.props;
     const { faultType, hourDivided, faultHandle, lineDivided} = data;
     // let text = this.state.lineFault.join(',')
+    let fromDate = new Date(timeRange[0]).toLocaleDateString();
+    let toDate = new Date(timeRange[1]).toLocaleDateString();
     let [config, lineFault] = this.handleLineFaultConfig();
+    let [faultTypeConfig, faultTypeTotal, faultTypeText] = this.handleFaultPercentConfig();
+    let [faultStatusConfig, faultStatusText] = this.handleFaultStatusConfig();
 
     return <div className='fault-card' style={{ marginBottom: 30 }}>
       <Card className='equip-card' title='故障信息'>
@@ -255,7 +268,7 @@ export class FaultCard extends React.Component < Props > {
           {
             faultType && faultType.length ?
             <ReactHighcharts config={
-              this.handleFaultPercentConfig()
+              faultTypeConfig
             }/> :
             <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无故障类型占比</div>
           }
@@ -273,11 +286,18 @@ export class FaultCard extends React.Component < Props > {
           {
             faultHandle && faultHandle.length ?
             <ReactHighcharts config={
-              this.handleFaultStatusConfig()
+              faultStatusConfig
             } /> :
             <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无故障处理状态</div>
           }
-          <div style={{padding: '20px 40px'}}>XX年XX月故障接报系统共计接报XX起故障，较去年同比增长（减少）XX%，较上月环比增长（减少）XX%，引起五分钟晚点X起，全年累计X起，全年累计X起，十五分钟晚点X起。其中信号专业故障XX起，通信专业故障XX起，信息专业故障XX起，平均故障处置用时X小时X分钟，故障修复率XX%，闭环率XX%。</div>
+          <div style={{padding: '20px 40px'}}>
+            {fromDate}-{toDate}故障接报系统共计接报{faultTypeTotal}起故障，
+            {/* 较去年同比增长（减少）XX%，较上月环比增长（减少）XX%，引起五分钟晚点X起，全年累计X起，全年累计X起，十五分钟晚点X起。 */}
+            其中{faultTypeText}
+            {/* 平均故障处置用时X小时X分钟， */}
+            故障修复率{faultStatusText}%。
+            {/* 闭环率XX%。 */}
+            </div>
         </div>
         <div style={{ minWidth: '220px', width: '50%' }}>
           {
@@ -285,7 +305,7 @@ export class FaultCard extends React.Component < Props > {
             <ReactHighcharts config={config} />:
             <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无各线路故障情况</div>
           }
-          <div style={{padding: '20px 40px'}}>各线路故障数：{lineFault}</div>
+          <div style={{padding: '20px 40px'}}>各线路故障数：{lineFault}。</div>
         </div>
       </Card>
 
