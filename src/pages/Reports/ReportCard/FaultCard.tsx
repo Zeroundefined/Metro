@@ -3,9 +3,11 @@ import * as ReactHighcharts from 'react-highcharts';
 import {
   Card
 } from 'src/components';
+import {linesList, hoursList} from '../../../constant/tableConst';
 interface Props {
   data: any
 }
+
 
 export class FaultCard extends React.Component < Props > {
   state = {
@@ -20,18 +22,19 @@ export class FaultCard extends React.Component < Props > {
     const total = faultType.reduce((tol, cur) => tol + cur[1], 0)
     const final = [];
     faultType.map(type => {
-      if (type[0] == 'type_comm') {
-        final.push(['故障类型-通信类', type[1] / total]);
-      }
-      if (type[0] == 'type_net') {
-        final.push(['故障类型-网络类', type[1] / total]);
-      }
-      if (type[0]=='type_signal') {
-        final.push(['故障类型-信号类', type[1] / total]);
-      }
-      if (type[0]== 'type_other') {
-        final.push(['故障类型-其他类', type[1] / total]);
-      }
+      // if (type[0] == 'type_comm') {
+      //   final.push(['故障类型-通信类', type[1] / total]);
+      // }
+      // if (type[0] == 'type_net') {
+      //   final.push(['故障类型-网络类', type[1] / total]);
+      // }
+      // if (type[0]=='type_signal') {
+      //   final.push(['故障类型-信号类', type[1] / total]);
+      // }
+      // if (type[0]== 'type_other') {
+      //   final.push(['故障类型-其他类', type[1] / total]);
+      // }
+      final.push([type.type, type.count]);
     })
 
     return {
@@ -40,7 +43,7 @@ export class FaultCard extends React.Component < Props > {
         backgroundColor : '#030B1E'
       },
       title: {
-        floating: true,
+        // floating: true,
         text: '故障类型占比',
         style: {
           color: '#ffffff'
@@ -80,10 +83,10 @@ export class FaultCard extends React.Component < Props > {
     const hourDivided = data.hourDivided;
     let categories = [];
     let faults =[];
-
-    hourDivided && hourDivided.map(divid => {
-      categories.push(divid.key);
-      faults.push(divid.value)
+    hoursList.map(hour => {
+      let currentHour = hourDivided.find(item => item.hour == hour);
+      categories.push(`${hour}点`);
+      faults.push(currentHour ? currentHour.count : 0)
     })
     return {
       chart: {
@@ -128,18 +131,20 @@ export class FaultCard extends React.Component < Props > {
     const final = [];
     const faultHandle = data.faultHandle;
     faultHandle && faultHandle.map(handle => {
-      if (handle[0] == 'state_closed') {
-        final.push(['故障状态-已完结', handle[1]]);
-      }
-      if (handle[0] == 'state_fixed') {
-        final.push(['故障状态-已修复', handle[1]]);
-      }
-      if (handle[0]=='state_new') {
-        final.push(['故障状态-新报修', handle[1]]);
-      }
-      if (handle[0]=='state_processed') {
-        final.push(['故障状态-在处理', handle[1]]);
-      }
+      // if (handle[0] == 'state_closed') {
+      //   final.push(['故障状态-已完结', handle[1]]);
+      // }
+      // if (handle[0] == 'state_fixed') {
+      //   final.push(['故障状态-已修复', handle[1]]);
+      // }
+      // if (handle[0]=='state_new') {
+      //   final.push(['故障状态-新报修', handle[1]]);
+      // }
+      // if (handle[0]=='state_processed') {
+      //   final.push(['故障状态-在处理', handle[1]]);
+      // }
+        final.push([handle.status, handle.count]);
+
     })
 
 
@@ -186,10 +191,11 @@ export class FaultCard extends React.Component < Props > {
       '一号线', '二号线', '三号线', '四号线', '五号线', '六号线', '七号线', '八号线', '九号线', '十号线', '十一号线', '十二号线', '十三号线', '十四号线', '十五号线', '十六号线', '十七号线'
     ];
     if(lineDivided) {
-      for (var i = 1; i <= 17; i++) {
-        final.push(lineDivided && lineDivided[`line${i}`]);
-        lineFault.push(`${categories[i-1]}${lineDivided[`line${i}`]}个`)
-      }
+      linesList.map(line => {
+        let currentLine = lineDivided.find(item => item.line == line.name);
+        final.push(currentLine ? currentLine['count'] : '0')
+        lineFault.push(`${line.name}${currentLine ? currentLine['count'] : '0'}`)
+      })
     }
 
     return [{
@@ -235,30 +241,50 @@ export class FaultCard extends React.Component < Props > {
 
 
   render() {
-    // const {
-    //   data
-    // } = this.props;
+    const {
+      data
+    } = this.props;
+    const { faultType, hourDivided, faultHandle, lineDivided} = data;
     // let text = this.state.lineFault.join(',')
     let [config, lineFault] = this.handleLineFaultConfig();
 
     return <div className='fault-card' style={{ marginBottom: 30 }}>
       <Card className='equip-card' title='故障信息'>
-
-        <div style={{ minWidth: '220px', width: '50%' }}><ReactHighcharts config={
-          this.handleFaultPercentConfig()
-        }
-        /> </div>
-        <div style={{ minWidth: '220px', width: '50%' }}><ReactHighcharts config={
-          this.handle24HourConfig()
-        } /> </div>
+          
         <div style={{ minWidth: '220px', width: '50%' }}>
-          <ReactHighcharts config={
-            this.handleFaultStatusConfig()
-          } />
+          {
+            faultType && faultType.length ?
+            <ReactHighcharts config={
+              this.handleFaultPercentConfig()
+            }/> :
+            <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无故障类型占比</div>
+          }
+        </div>
+
+        <div style={{ minWidth: '220px', width: '50%' }}>
+          {hourDivided && hourDivided.length ?
+            <ReactHighcharts config={
+              this.handle24HourConfig()
+            } />:
+            <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无24小时故障情况</div>
+          }
+        </div>
+        <div style={{ minWidth: '220px', width: '50%' }}>
+          {
+            faultHandle && faultHandle.length ?
+            <ReactHighcharts config={
+              this.handleFaultStatusConfig()
+            } /> :
+            <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无故障处理状态</div>
+          }
           <div style={{padding: '20px 40px'}}>XX年XX月故障接报系统共计接报XX起故障，较去年同比增长（减少）XX%，较上月环比增长（减少）XX%，引起五分钟晚点X起，全年累计X起，全年累计X起，十五分钟晚点X起。其中信号专业故障XX起，通信专业故障XX起，信息专业故障XX起，平均故障处置用时X小时X分钟，故障修复率XX%，闭环率XX%。</div>
         </div>
         <div style={{ minWidth: '220px', width: '50%' }}>
-          <ReactHighcharts config={config} />
+          {
+            lineDivided && lineDivided.length ?
+            <ReactHighcharts config={config} />:
+            <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无各线路故障情况</div>
+          }
           <div style={{padding: '20px 40px'}}>各线路故障数：{lineFault}</div>
         </div>
       </Card>

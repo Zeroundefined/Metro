@@ -4,13 +4,16 @@ import { Menu, Icon, Avatar, Popover } from 'antd';
 import { env } from '../../utils/isLogin';
 import './Frame.scss';
 const MenuItemGroup = Menu.ItemGroup;
+import * as ICON1 from '../../img/icons-11.png'; 
+import * as ICON2 from '../../img/icons-12.png'; 
+import * as ICON3 from '../../img/icons-13.png'; 
 
 export default class Frame extends React.Component<RouteComponentProps<any, any>> {
   state = {
     types: {
-      "/metaCenter": {title: '元数据中心', icon_type: 'database', title_icon: '../../img/icons-11.png'},
-      "/reports": {title: '报表管理', icon_type: 'area-chart', title_icon: '../../img/icons-12.png'},
-      "/logs": {title: '日志管理', icon_type: 'profile', title_icon: '../../img/icons-13.png'}
+      "/metaCenter": {title: '元数据中心', icon_type: 'database', title_icon: ICON1},
+      "/reports": {title: '报表管理', icon_type: 'area-chart', title_icon: ICON2},
+      "/logs": {title: '日志管理', icon_type: 'profile', title_icon: ICON3}
     }
   }
 

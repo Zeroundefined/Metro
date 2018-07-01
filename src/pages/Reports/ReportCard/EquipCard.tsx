@@ -16,18 +16,18 @@ export class EquipCard extends React.Component<Props> {
       data
     } = this.props;
     const {
-      thirdClass, firstClass
+      firstTypeCount, equipTotal,  secdTypeTotal
     } = data
 
     const handleConf = () => {
       let conf = [];
-      thirdClass && Object.entries(thirdClass).map(data => {
+      firstTypeCount && firstTypeCount.map(data => {
         let materials = [];
-        (data[1] as any).map(item => {
-          materials.push([item.third_class, item.ratio * 100])
+        secdTypeTotal[data.first_type].map(item => {
+          materials.push([item.secd_type, item.count])
         });
-        let total = firstClass.reduce((tol, cur) => tol + cur.value, 0);
-        let percent = ((firstClass.find(item => item.key == data[0]).value/total) * 100).toFixed(2) ;
+        // let total = firstClass.reduce((tol, cur) => tol + cur.value, 0);
+        let percent = ((data.count/equipTotal) * 100).toFixed(2) ;
         conf.push({
           chart: {
             spacing: [0, 20, 20, 0],
@@ -35,7 +35,7 @@ export class EquipCard extends React.Component<Props> {
           },
           title: {
             useHTML: true,
-            text: `<div>${data[0]}</div><div>${percent}%</div>`,
+            text: `<div>${data.first_type}</div><div>${percent}%</div>`,
             style: {
               color: '#ffffff'
             }
@@ -71,7 +71,7 @@ export class EquipCard extends React.Component<Props> {
     return <div style={{ marginBottom: 30}}>
     <Card className='equip-card' title='设备模块'>
     {
-      Object.keys(thirdClass).length ? 
+      Object.keys(firstTypeCount).length ? 
       handleConf().map((data, key) => {
         return <div style={{minWidth: '220px', width: '50%'}} key={key}>
             <ReactHighcharts config={data}/>

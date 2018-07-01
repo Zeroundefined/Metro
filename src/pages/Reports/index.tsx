@@ -852,337 +852,286 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     timeRange: [moment(new Date().toLocaleDateString(), dateFormat).subtract(7, 'days'), moment(new Date().toLocaleDateString(), dateFormat)],
     searchedField: '',
     keyword: '',
-    fault: {
-      "faultType": [
-        [
-          "type_comm",
-          171
-        ],
-        [
-          "type_net",
-          36
-        ],
-        [
-          "type_other",
-          21
-        ],
-        [
-          "type_signal",
-          95
-        ]
+    "fault": {
+      "delayCount": null,
+      "lostCount": null,
+      "faultType": [{
+          "type": "信号 ",
+          "count": 7
+        },
+        {
+          "type": "网络 ",
+          "count": 1
+        },
+        {
+          "type": "通信 ",
+          "count": 9
+        }
       ],
-      "faultHandle": [
-        [
-          "state_closed",
-          93
-        ],
-        [
-          "state_fixed",
-          79
-        ],
-        [
-          "state_new",
-          60
-        ],
-        [
-          "state_processed",
-          67
-        ]
+      "faultHandle": [{
+          "status": "在处理",
+          "count": 4
+        },
+        {
+          "status": "已修复",
+          "count": 5
+        },
+        {
+          "status": "已完结",
+          "count": 5
+        },
+        {
+          "status": "新报修",
+          "count": 3
+        }
       ],
       "hourDivided": [{
-        "key": "0-2点",
-        "value": 15
-      }, {
-        "key": "10-12点",
-        "value": 10
-      }, {
-        "key": "12-14点",
-        "value": 5
-      }, {
-        "key": "14-16点",
-        "value": 0
-      }, {
-        "key": "16-18点",
-        "value": 0
-      }, {
-        "key": "18-20点",
-        "value": 0
-      }, {
-        "key": "2-4点",
-        "value": 0
-      }, {
-        "key": "20-22点",
-        "value": 0
-      }, {
-        "key": "22-24点",
-        "value": 0
-      }, {
-        "key": "4-6点",
-        "value": 10
-      }, {
-        "key": "6-8点",
-        "value": 30
-      }, {
-        "key": "8-10点",
-        "value": 16
-      }, {
-        "key": "全天",
-        "value": 469
-      }],
-      "lineDivided": {
-        "hour": "全天",
-        "line1": 28,
-        "line2": 12,
-        "line3": 38,
-        "line4": 30,
-        "line5": 8,
-        "line6": 26,
-        "line7": 30,
-        "line8": 23,
-        "line9": 90,
-        "line10": 22,
-        "line11": 28,
-        "line12": 14,
-        "line13": 8,
-        "line14": 7,
-        "line15": 13,
-        "line16": 40,
-        "line17": 52
-      }
+          "hour": "0-2",
+          "count": 3
+        },
+        {
+          "hour": "10-12",
+          "count": 2
+        },
+        {
+          "hour": "12-14",
+          "count": 1
+        },
+        {
+          "hour": "4-6",
+          "count": 2
+        },
+        {
+          "hour": "6-8",
+          "count": 6
+        },
+        {
+          "hour": "8-10",
+          "count": 3
+        }
+      ],
+      "lineDivided": [{
+          "line": "七号线",
+          "count": 1
+        },
+        {
+          "line": "三号线",
+          "count": 2
+        },
+        {
+          "line": "九号线",
+          "count": 5
+        },
+        {
+          "line": "八号线",
+          "count": 1
+        },
+        {
+          "line": "六号线",
+          "count": 1
+        },
+        {
+          "line": "十一号线",
+          "count": 1
+        },
+        {
+          "line": "十七号线",
+          "count": 2
+        },
+        {
+          "line": "十六号线",
+          "count": 2
+        },
+        {
+          "line": "四号线",
+          "count": 2
+        }
+      ]
     },
     "working": {
-      "reachRatio": 0.23809523809523808,
-      "hourRatio": 0.01147959203947158,
-      "updateRatio": 0,
-      "illegal": 0,
-      "lineDivided": [
-        [
-          "line1",
-          90
-        ],
-        [
-          "line2",
-          15
-        ],
-        [
-          "line3",
-          30
-        ],
-        [
-          "line4",
-          20
-        ],
-        [
-          "line5",
-          30
-        ],
-        [
-          "line6",
-          40
-        ],
-        [
-          "line7",
-          10
-        ],
-        [
-          "line8",
-          3
-        ],
-        [
-          "line9",
-          9
-        ],
-        [
-          "line10",
-          10
-        ],
-        [
-          "line11",
-          20
-        ],
-        [
-          "line12",
-          30
-        ],
-        [
-          "line13",
-          30
-        ],
-        [
-          "line14",
-          10
-        ],
-        [
-          "line15",
-          20
-        ],
-        [
-          "line16",
-          10
-        ],
-        [
-          "line17",
-          20
-        ]
+      "reachRatio": null,
+      "hourRatio": 0,
+      "updateRatio": null,
+      "illegal": 1,
+      "lineDivided": [{
+          "line": "00",
+          "count": 96
+        },
+        {
+          "line": "01",
+          "count": 80
+        },
+        {
+          "line": "02",
+          "count": 106
+        },
+        {
+          "line": "03",
+          "count": 86
+        },
+        {
+          "line": "04",
+          "count": 70
+        },
+        {
+          "line": "05",
+          "count": 14
+        },
+        {
+          "line": "06",
+          "count": 64
+        },
+        {
+          "line": "07",
+          "count": 90
+        },
+        {
+          "line": "08",
+          "count": 90
+        },
+        {
+          "line": "09",
+          "count": 76
+        },
+        {
+          "line": "10",
+          "count": 50
+        },
+        {
+          "line": "11",
+          "count": 58
+        },
+        {
+          "line": "1101",
+          "count": 4
+        },
+        {
+          "line": "12",
+          "count": 74
+        },
+        {
+          "line": "13",
+          "count": 58
+        },
+        {
+          "line": "16",
+          "count": 52
+        },
+        {
+          "line": "17",
+          "count": 46
+        }
       ],
       "hourDivided": [{
-          "key": "0-2点",
-          "value": 0
+          "hour": "0-2",
+          "count": 66
         },
         {
-          "key": "10-12点",
-          "value": 45
+          "hour": "10-12",
+          "count": 13
         },
         {
-          "key": "12-14点",
-          "value": 45
+          "hour": "12-14",
+          "count": 7
         },
         {
-          "key": "14-16点",
-          "value": 0
+          "hour": "14-16",
+          "count": 4
         },
         {
-          "key": "16-18点",
-          "value": 0
+          "hour": "16-18",
+          "count": 6
         },
         {
-          "key": "18-20点",
-          "value": 0
+          "hour": "18-20",
+          "count": 1
         },
         {
-          "key": "2-4点",
-          "value": 0
+          "hour": "20-22",
+          "count": 25
         },
         {
-          "key": "20-22点",
-          "value": 0
+          "hour": "22-24",
+          "count": 64
         },
         {
-          "key": "22-24点",
-          "value": 0
+          "hour": "4-6",
+          "count": 13
         },
         {
-          "key": "4-6点",
-          "value": 0
+          "hour": "6-8",
+          "count": 66
         },
         {
-          "key": "6-8点",
-          "value": 0
-        },
-        {
-          "key": "8-10点",
-          "value": 45
-        },
-        {
-          "key": "全天",
-          "value": 135
+          "hour": "8-10",
+          "count": 292
         }
       ]
     },
     "equip": {
-      "thirdClass": {
-        "信号": [{
-            "first_class": "信号",
-            "third_class": "信号小类1",
-            "ratio": 0.08
+      "firstTypeCount": [{
+          "first_type": "05",
+          "count": 323
+        },
+        {
+          "first_type": "06",
+          "count": 3553
+        }
+      ],
+      "equipTotal": 3876,
+      "secdTypeTotal": {
+        "05": [{
+          "first_type": "05",
+          "secd_type": "03",
+          "count": 323
+        }],
+        "06": [{
+            "first_type": "06",
+            "secd_type": "01",
+            "count": 34
           },
           {
-            "first_class": "信号",
-            "third_class": "信号小类2",
-            "ratio": 0.03
+            "first_type": "06",
+            "secd_type": "02",
+            "count": 2346
           },
           {
-            "first_class": "信号",
-            "third_class": "信号小类3",
-            "ratio": 0.01
+            "first_type": "06",
+            "secd_type": "03",
+            "count": 153
           },
           {
-            "first_class": "信号",
-            "third_class": "信号小类4",
-            "ratio": 0.01
-          }
-        ],
-        "信息": [{
-            "first_class": "信息",
-            "third_class": "信息小类1",
-            "ratio": 0.06
+            "first_type": "06",
+            "secd_type": "04",
+            "count": 442
           },
           {
-            "first_class": "信息",
-            "third_class": "信息小类2",
-            "ratio": 0.04
+            "first_type": "06",
+            "secd_type": "05",
+            "count": 51
           },
           {
-            "first_class": "信息",
-            "third_class": "信息小类3",
-            "ratio": 0.01
+            "first_type": "06",
+            "secd_type": "06",
+            "count": 34
           },
           {
-            "first_class": "信息",
-            "third_class": "信息小类4",
-            "ratio": 0.01
-          }
-        ],
-        "系统": [{
-            "first_class": "系统",
-            "third_class": "系统小类1",
-            "ratio": 0.05
+            "first_type": "06",
+            "secd_type": "07",
+            "count": 136
           },
           {
-            "first_class": "系统",
-            "third_class": "系统小类2",
-            "ratio": 0.03
+            "first_type": "06",
+            "secd_type": "09",
+            "count": 323
           },
           {
-            "first_class": "系统",
-            "third_class": "系统小类3",
-            "ratio": 0.03
-          },
-          {
-            "first_class": "系统",
-            "third_class": "系统小类4",
-            "ratio": 0.03
-          }
-        ],
-        "通信": [{
-            "first_class": "通信",
-            "third_class": "通信小类1",
-            "ratio": 0.05
-          },
-          {
-            "first_class": "通信",
-            "third_class": "通信小类2",
-            "ratio": 0.04
-          },
-          {
-            "first_class": "通信",
-            "third_class": "通信小类3",
-            "ratio": 0.03
-          },
-          {
-            "first_class": "通信",
-            "third_class": "通信小类4",
-            "ratio": 0.01
+            "first_type": "06",
+            "secd_type": "10",
+            "count": 34
           }
         ]
-      },
-      "firstClass": [{
-          "key": "信号",
-          "value": 0.06
-        },
-        {
-          "key": "信息",
-          "value": 0.05
-        },
-        {
-          "key": "系统",
-          "value": 0.03
-        },
-        {
-          "key": "通信",
-          "value": 0.05
-        }
-      ]
+      }
     },
     "material": {
       "入库": [{
@@ -1512,8 +1461,9 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         className='reports-review-modal'
       >
         <div className='reports-review' style={{ 
-          margin: 30,
-          color: '#ffffff'
+          padding: 30,
+          color: '#ffffff',
+          background:'#030b1e'
           // display: 'flex', 
           // justifyContent: 'space-between' 
         }}>

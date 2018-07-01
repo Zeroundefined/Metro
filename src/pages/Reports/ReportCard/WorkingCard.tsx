@@ -3,6 +3,7 @@ import * as ReactHighcharts from 'react-highcharts';
 import { Card } from '../../../components';
 import './WorkingCard.scss';
 import { Divider } from 'antd';
+import {linesList, hoursList} from '../../../constant/tableConst';
 
 interface Props {
   data: any;
@@ -144,10 +145,11 @@ export class WorkingCard extends React.Component<Props> {
       '一号线', '二号线', '三号线', '四号线', '五号线', '六号线', '七号线', '八号线', '九号线', '十号线', '十一号线', '十二号线', '十三号线', '十四号线', '十五号线', '十六号线', '十七号线'
     ];
     if(lineDivided) {
-      for (var i = 1; i <= 17; i++) {
-        list.push(lineDivided[i-1][1]);
-        lineWorking.push(`${categories[i-1]}${lineDivided[i-1][1]}个`)
-      }
+      linesList.map(line => {
+        let currentLine = lineDivided.find(item => item.line == line.id);
+        list.push(currentLine ? currentLine['count'] : '0')
+        lineWorking.push(`${line.name}${currentLine ? currentLine['count'] : '0'}`)
+      })
     }
 
     return [{
@@ -200,11 +202,15 @@ export class WorkingCard extends React.Component<Props> {
     let { hourDivided } = data;
     let categories = [];
     let datas =[];
-
-    hourDivided && hourDivided.map(divid => {
-      categories.push(divid.key);
-      datas.push(divid.value)
+    hoursList.map(hour => {
+      let currentHour = hourDivided.find(item => item.hour == hour);
+      categories.push(`${hour}点`);
+      datas.push(currentHour ? currentHour.count : 0)
     })
+    // hourDivided && hourDivided.map(divid => {
+    //   categories.push(divid.key);
+    //   datas.push(divid.value)
+    // })
 
     return {
       chart: {
@@ -250,22 +256,25 @@ export class WorkingCard extends React.Component<Props> {
     return <Card className='working-card' title='施工模块' style={{ marginBottom: 30}}>
       <div style={{minWidth: '220px', width: '50%'}}>
         {
-          reachRatio ? <ReactHighcharts config={this.handleReachRatioConfig()} /> : <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工计划兑现率</div>
+          reachRatio !== null ? <ReactHighcharts config={this.handleReachRatioConfig()} /> : <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工计划兑现率</div>
         }
       </div>
+
       <div style={{minWidth: '220px', width: '50%'}}>
         {
-          hourRatio ? <ReactHighcharts config={this.handleWorkingTimeRateConfig()} /> : <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工计划工时利用率</div>
+          hourRatio !== null ? <ReactHighcharts config={this.handleWorkingTimeRateConfig()} /> : <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工计划工时利用率</div>
         }
       </div>
+
       <div style={{minWidth: '220px', width: '50%'}}>
         {
-          updateRatio ? <ReactHighcharts config={this.handleUpdateRatioConfig()} /> : <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工计划变更率</div> 
+          updateRatio !== null ? <ReactHighcharts config={this.handleUpdateRatioConfig()} /> : <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工计划变更率</div> 
         }
       </div>
+
       <div style={{minWidth: '220px', width: '50%'}}>
       {illegal ?
-        <div className="illegal" style={{textAlign: 'center', margin: 'auto'}}>
+        <div className="illegal" style={{textAlign: 'center', margin: 'auto', minHeight: '220px'}}>
           <div className="text" style={{color: '#333333', fontSize: '18px'}}>施工违规项</div>
           <div className="content" style={{color: '#3cc5d4', marginTop: '40px', fontSize: '30px'}}>
             违规施工<span style={{margin: '0 10px', fontSize: '50px', color: '#f5be25'}}>{data.illegal}</span>起</div>
@@ -273,6 +282,7 @@ export class WorkingCard extends React.Component<Props> {
         <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工违规数据</div>
       }
       </div>
+
       <div style={{minWidth: '220px', width: '50%'}}>
         <ReactHighcharts config={LineDividedConfig} />
         <div style={{padding: '20px 40px'}}>各线路施工数{lineWorking}</div>   

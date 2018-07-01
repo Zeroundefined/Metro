@@ -4,6 +4,7 @@ import './CheckInCard.scss';
 import { Card } from 'src/components';
 import { relative } from 'path';
 import { Divider } from 'antd';
+import {hoursList} from '../../../constant/tableConst';
 
 interface Props {
   data: any
@@ -15,9 +16,10 @@ export class CheckInCard extends React.Component<Props> {
     let categories = [];
     let datas =[];
 
-    hourDivided && hourDivided.map(divid => {
-      categories.push(divid.key);
-      datas.push(divid.value)
+    hoursList.map(hour => {
+      let currentHour = hourDivided.find(item => item.key == hour);
+      categories.push(`${hour}点`);
+      datas.push(currentHour ? currentHour.value : 0)
     })
 
     const line = {
@@ -122,18 +124,18 @@ export class CheckInCard extends React.Component<Props> {
 
     return <div style={{marginBottom: 30}}>
       <Card className='equip-card' title='巡检信息'>
-        {hourDivided.length ?
+        {hourDivided && hourDivided.length ?
           <div style={{flex: 1}}><ReactHighcharts config={line} />
             <div style={{padding: '20px 40px'}}>XX年XX月移动点巡检系统共计处理XX次点巡检作业，共计耗时XXXX分钟，平均每次巡检耗时XX分钟。</div>
           </div>:
           <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无巡检信息</div>
         }
         {
-          duration? 
+          duration !==null ? 
           <div style={{ margin: '40px 0 0', textAlign: 'center', flex: 1, position: 'relative' }}>
             <div className="frequent" style={{fontSize: '60px', color: '#3cc5d4'}}>{duration}</div>
             <div className="text" style={{fontSize: '30px'}}>平均时长</div>
-            <div style={{}}>今日移动巡检共 {count} 起</div>
+            <div>今日移动巡检共 {count || 0} 起</div>
           <div style={{position: 'absolute', bottom: '0', padding: '20px 40px'}}>各线路点巡检数。。。。。平均耗时数。。。。</div>
         </div>
           :
