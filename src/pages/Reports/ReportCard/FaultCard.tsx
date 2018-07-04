@@ -5,8 +5,8 @@ import {
 } from 'src/components';
 import {linesList, hoursList} from '../../../constant/tableConst';
 interface Props {
-  data: any,
-  timeRange: any
+  data: any
+  timeRange: any;
 }
 
 
