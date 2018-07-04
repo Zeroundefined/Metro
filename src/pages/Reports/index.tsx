@@ -514,7 +514,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '类型',
       dataIndex: 'type',
@@ -541,7 +541,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '线路',
       dataIndex: 'line',
@@ -562,7 +562,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '时段',
       dataIndex: 'hour',
@@ -589,7 +589,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '线路',
       dataIndex: 'line',
@@ -610,7 +610,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '类型',
       dataIndex: 'type',
@@ -631,7 +631,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '数量',
       dataIndex: 'ratio',
@@ -661,7 +661,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '数量',
       dataIndex: 'number',
@@ -676,7 +676,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '线路',
       dataIndex: 'line',
@@ -703,7 +703,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '线路',
       dataIndex: 'line',
@@ -751,7 +751,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '数量',
       dataIndex: 'num',
@@ -787,7 +787,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '状态',
       dataIndex: 'status',
@@ -808,7 +808,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '时段',
       dataIndex: 'hour',
@@ -829,7 +829,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'datelabel',
       key: 'datelabel',
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '线路',
       dataIndex: 'line',
@@ -853,424 +853,424 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     searchedField: '',
     keyword: '',
     "fault": {
-      "delayCount": null,
-      "lostCount": null,
-      "faultType": [{
-          "type": "信号 ",
-          "count": 7
-        },
-        {
-          "type": "网络 ",
-          "count": 1
-        },
-        {
-          "type": "通信 ",
-          "count": 9
-        }
-      ],
-      "faultHandle": [{
-          "status": "在处理",
-          "count": 4
-        },
-        {
-          "status": "已修复",
-          "count": 5
-        },
-        {
-          "status": "已完结",
-          "count": 5
-        },
-        {
-          "status": "新报修",
-          "count": 3
-        }
-      ],
-      "hourDivided": [{
-          "hour": "0-2",
-          "count": 3
-        },
-        {
-          "hour": "10-12",
-          "count": 2
-        },
-        {
-          "hour": "12-14",
-          "count": 1
-        },
-        {
-          "hour": "4-6",
-          "count": 2
-        },
-        {
-          "hour": "6-8",
-          "count": 6
-        },
-        {
-          "hour": "8-10",
-          "count": 3
-        }
-      ],
-      "lineDivided": [{
-          "line": "七号线",
-          "count": 1
-        },
-        {
-          "line": "三号线",
-          "count": 2
-        },
-        {
-          "line": "九号线",
-          "count": 5
-        },
-        {
-          "line": "八号线",
-          "count": 1
-        },
-        {
-          "line": "六号线",
-          "count": 1
-        },
-        {
-          "line": "十一号线",
-          "count": 1
-        },
-        {
-          "line": "十七号线",
-          "count": 2
-        },
-        {
-          "line": "十六号线",
-          "count": 2
-        },
-        {
-          "line": "四号线",
-          "count": 2
-        }
-      ]
+      // "delayCount": null,
+      // "lostCount": null,
+      // "faultType": [{
+      //     "type": "信号 ",
+      //     "count": 7
+      //   },
+      //   {
+      //     "type": "网络 ",
+      //     "count": 1
+      //   },
+      //   {
+      //     "type": "通信 ",
+      //     "count": 9
+      //   }
+      // ],
+      // "faultHandle": [{
+      //     "status": "在处理",
+      //     "count": 4
+      //   },
+      //   {
+      //     "status": "已修复",
+      //     "count": 5
+      //   },
+      //   {
+      //     "status": "已完结",
+      //     "count": 5
+      //   },
+      //   {
+      //     "status": "新报修",
+      //     "count": 3
+      //   }
+      // ],
+      // "hourDivided": [{
+      //     "hour": "0-2",
+      //     "count": 3
+      //   },
+      //   {
+      //     "hour": "10-12",
+      //     "count": 2
+      //   },
+      //   {
+      //     "hour": "12-14",
+      //     "count": 1
+      //   },
+      //   {
+      //     "hour": "4-6",
+      //     "count": 2
+      //   },
+      //   {
+      //     "hour": "6-8",
+      //     "count": 6
+      //   },
+      //   {
+      //     "hour": "8-10",
+      //     "count": 3
+      //   }
+      // ],
+      // "lineDivided": [{
+      //     "line": "七号线",
+      //     "count": 1
+      //   },
+      //   {
+      //     "line": "三号线",
+      //     "count": 2
+      //   },
+      //   {
+      //     "line": "九号线",
+      //     "count": 5
+      //   },
+      //   {
+      //     "line": "八号线",
+      //     "count": 1
+      //   },
+      //   {
+      //     "line": "六号线",
+      //     "count": 1
+      //   },
+      //   {
+      //     "line": "十一号线",
+      //     "count": 1
+      //   },
+      //   {
+      //     "line": "十七号线",
+      //     "count": 2
+      //   },
+      //   {
+      //     "line": "十六号线",
+      //     "count": 2
+      //   },
+      //   {
+      //     "line": "四号线",
+      //     "count": 2
+      //   }
+      // ]
     },
     "working": {
-      "reachRatio": null,
-      "hourRatio": 0,
-      "updateRatio": null,
-      "illegal": 1,
-      "workingActual": 100,
-      "workingTotal": 100,
-      "lineDivided": [{
-          "line": "00",
-          "count": 96
-        },
-        {
-          "line": "01",
-          "count": 80
-        },
-        {
-          "line": "02",
-          "count": 106
-        },
-        {
-          "line": "03",
-          "count": 86
-        },
-        {
-          "line": "04",
-          "count": 70
-        },
-        {
-          "line": "05",
-          "count": 14
-        },
-        {
-          "line": "06",
-          "count": 64
-        },
-        {
-          "line": "07",
-          "count": 90
-        },
-        {
-          "line": "08",
-          "count": 90
-        },
-        {
-          "line": "09",
-          "count": 76
-        },
-        {
-          "line": "10",
-          "count": 50
-        },
-        {
-          "line": "11",
-          "count": 58
-        },
-        {
-          "line": "1101",
-          "count": 4
-        },
-        {
-          "line": "12",
-          "count": 74
-        },
-        {
-          "line": "13",
-          "count": 58
-        },
-        {
-          "line": "16",
-          "count": 52
-        },
-        {
-          "line": "17",
-          "count": 46
-        }
-      ],
-      "hourDivided": [{
-          "hour": "0-2",
-          "count": 66
-        },
-        {
-          "hour": "10-12",
-          "count": 13
-        },
-        {
-          "hour": "12-14",
-          "count": 7
-        },
-        {
-          "hour": "14-16",
-          "count": 4
-        },
-        {
-          "hour": "16-18",
-          "count": 6
-        },
-        {
-          "hour": "18-20",
-          "count": 1
-        },
-        {
-          "hour": "20-22",
-          "count": 25
-        },
-        {
-          "hour": "22-24",
-          "count": 64
-        },
-        {
-          "hour": "4-6",
-          "count": 13
-        },
-        {
-          "hour": "6-8",
-          "count": 66
-        },
-        {
-          "hour": "8-10",
-          "count": 292
-        }
-      ]
+      // "reachRatio": null,
+      // "hourRatio": 0,
+      // "updateRatio": null,
+      // "illegal": 1,
+      // "workingActual": 100,
+      // "workingTotal": 100,
+      // "lineDivided": [{
+      //     "line": "00",
+      //     "count": 96
+      //   },
+      //   {
+      //     "line": "01",
+      //     "count": 80
+      //   },
+      //   {
+      //     "line": "02",
+      //     "count": 106
+      //   },
+      //   {
+      //     "line": "03",
+      //     "count": 86
+      //   },
+      //   {
+      //     "line": "04",
+      //     "count": 70
+      //   },
+      //   {
+      //     "line": "05",
+      //     "count": 14
+      //   },
+      //   {
+      //     "line": "06",
+      //     "count": 64
+      //   },
+      //   {
+      //     "line": "07",
+      //     "count": 90
+      //   },
+      //   {
+      //     "line": "08",
+      //     "count": 90
+      //   },
+      //   {
+      //     "line": "09",
+      //     "count": 76
+      //   },
+      //   {
+      //     "line": "10",
+      //     "count": 50
+      //   },
+      //   {
+      //     "line": "11",
+      //     "count": 58
+      //   },
+      //   {
+      //     "line": "1101",
+      //     "count": 4
+      //   },
+      //   {
+      //     "line": "12",
+      //     "count": 74
+      //   },
+      //   {
+      //     "line": "13",
+      //     "count": 58
+      //   },
+      //   {
+      //     "line": "16",
+      //     "count": 52
+      //   },
+      //   {
+      //     "line": "17",
+      //     "count": 46
+      //   }
+      // ],
+      // "hourDivided": [{
+      //     "hour": "0-2",
+      //     "count": 66
+      //   },
+      //   {
+      //     "hour": "10-12",
+      //     "count": 13
+      //   },
+      //   {
+      //     "hour": "12-14",
+      //     "count": 7
+      //   },
+      //   {
+      //     "hour": "14-16",
+      //     "count": 4
+      //   },
+      //   {
+      //     "hour": "16-18",
+      //     "count": 6
+      //   },
+      //   {
+      //     "hour": "18-20",
+      //     "count": 1
+      //   },
+      //   {
+      //     "hour": "20-22",
+      //     "count": 25
+      //   },
+      //   {
+      //     "hour": "22-24",
+      //     "count": 64
+      //   },
+      //   {
+      //     "hour": "4-6",
+      //     "count": 13
+      //   },
+      //   {
+      //     "hour": "6-8",
+      //     "count": 66
+      //   },
+      //   {
+      //     "hour": "8-10",
+      //     "count": 292
+      //   }
+      // ]
     },
     "equip": {
-      "firstTypeCount": [{
-          "first_type": "05",
-          "count": 323
-        },
-        {
-          "first_type": "06",
-          "count": 3553
-        }
-      ],
-      "equipTotal": 3876,
-      "secdTypeTotal": {
-        "05": [{
-          "first_type": "05",
-          "secd_type": "03",
-          "count": 323
-        }],
-        "06": [{
-            "first_type": "06",
-            "secd_type": "01",
-            "count": 34
-          },
-          {
-            "first_type": "06",
-            "secd_type": "02",
-            "count": 2346
-          },
-          {
-            "first_type": "06",
-            "secd_type": "03",
-            "count": 153
-          },
-          {
-            "first_type": "06",
-            "secd_type": "04",
-            "count": 442
-          },
-          {
-            "first_type": "06",
-            "secd_type": "05",
-            "count": 51
-          },
-          {
-            "first_type": "06",
-            "secd_type": "06",
-            "count": 34
-          },
-          {
-            "first_type": "06",
-            "secd_type": "07",
-            "count": 136
-          },
-          {
-            "first_type": "06",
-            "secd_type": "09",
-            "count": 323
-          },
-          {
-            "first_type": "06",
-            "secd_type": "10",
-            "count": 34
-          }
-        ]
-      }
+      // "firstTypeCount": [{
+      //     "first_type": "05",
+      //     "count": 323
+      //   },
+      //   {
+      //     "first_type": "06",
+      //     "count": 3553
+      //   }
+      // ],
+      // "equipTotal": 3876,
+      // "secdTypeTotal": {
+      //   "05": [{
+      //     "first_type": "05",
+      //     "secd_type": "03",
+      //     "count": 323
+      //   }],
+      //   "06": [{
+      //       "first_type": "06",
+      //       "secd_type": "01",
+      //       "count": 34
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "02",
+      //       "count": 2346
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "03",
+      //       "count": 153
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "04",
+      //       "count": 442
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "05",
+      //       "count": 51
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "06",
+      //       "count": 34
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "07",
+      //       "count": 136
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "09",
+      //       "count": 323
+      //     },
+      //     {
+      //       "first_type": "06",
+      //       "secd_type": "10",
+      //       "count": 34
+      //     }
+      //   ]
+      // }
     },
     "material": {
-      "入库": [{
-          "type": "入库",
-          "staut": "信号",
-          "ratio": 592
-        },
-        {
-          "type": "入库",
-          "staut": "未分配",
-          "ratio": 299
-        },
-        {
-          "type": "入库",
-          "staut": "电源",
-          "ratio": 38
-        },
-        {
-          "type": "入库",
-          "staut": "耗材",
-          "ratio": 5
-        },
-        {
-          "type": "入库",
-          "staut": "计算机网络",
-          "ratio": 234
-        },
-        {
-          "type": "入库",
-          "staut": "通信",
-          "ratio": 1026
-        },
-        {
-          "type": "入库",
-          "staut": "附属设备",
-          "ratio": 20
-        }
-      ],
-      "其他": [{
-          "type": "其他",
-          "staut": "C库",
-          "ratio": 277
-        },
-        {
-          "type": "其他",
-          "staut": "帐内",
-          "ratio": 65
-        }
-      ],
-      "出库": [{
-          "type": "出库",
-          "staut": "信号",
-          "ratio": 721
-        },
-        {
-          "type": "出库",
-          "staut": "未分配",
-          "ratio": 43
-        },
-        {
-          "type": "出库",
-          "staut": "电源",
-          "ratio": 6
-        },
-        {
-          "type": "出库",
-          "staut": "计算机网络",
-          "ratio": 226
-        },
-        {
-          "type": "出库",
-          "staut": "通信",
-          "ratio": 1654
-        },
-        {
-          "type": "出库",
-          "staut": "附属设备",
-          "ratio": 21
-        }
-      ],
-      "物资": [{
-          "type": "物资",
-          "staut": "C库",
-          "ratio": 4032
-        },
-        {
-          "type": "物资",
-          "staut": "帐内",
-          "ratio": 234
-        },
-        {
-          "type": "物资",
-          "staut": "帐外",
-          "ratio": 277
-        }
-      ]
+      // "入库": [{
+      //     "type": "入库",
+      //     "staut": "信号",
+      //     "ratio": 592
+      //   },
+      //   {
+      //     "type": "入库",
+      //     "staut": "未分配",
+      //     "ratio": 299
+      //   },
+      //   {
+      //     "type": "入库",
+      //     "staut": "电源",
+      //     "ratio": 38
+      //   },
+      //   {
+      //     "type": "入库",
+      //     "staut": "耗材",
+      //     "ratio": 5
+      //   },
+      //   {
+      //     "type": "入库",
+      //     "staut": "计算机网络",
+      //     "ratio": 234
+      //   },
+      //   {
+      //     "type": "入库",
+      //     "staut": "通信",
+      //     "ratio": 1026
+      //   },
+      //   {
+      //     "type": "入库",
+      //     "staut": "附属设备",
+      //     "ratio": 20
+      //   }
+      // ],
+      // "其他": [{
+      //     "type": "其他",
+      //     "staut": "C库",
+      //     "ratio": 277
+      //   },
+      //   {
+      //     "type": "其他",
+      //     "staut": "帐内",
+      //     "ratio": 65
+      //   }
+      // ],
+      // "出库": [{
+      //     "type": "出库",
+      //     "staut": "信号",
+      //     "ratio": 721
+      //   },
+      //   {
+      //     "type": "出库",
+      //     "staut": "未分配",
+      //     "ratio": 43
+      //   },
+      //   {
+      //     "type": "出库",
+      //     "staut": "电源",
+      //     "ratio": 6
+      //   },
+      //   {
+      //     "type": "出库",
+      //     "staut": "计算机网络",
+      //     "ratio": 226
+      //   },
+      //   {
+      //     "type": "出库",
+      //     "staut": "通信",
+      //     "ratio": 1654
+      //   },
+      //   {
+      //     "type": "出库",
+      //     "staut": "附属设备",
+      //     "ratio": 21
+      //   }
+      // ],
+      // "物资": [{
+      //     "type": "物资",
+      //     "staut": "C库",
+      //     "ratio": 4032
+      //   },
+      //   {
+      //     "type": "物资",
+      //     "staut": "帐内",
+      //     "ratio": 234
+      //   },
+      //   {
+      //     "type": "物资",
+      //     "staut": "帐外",
+      //     "ratio": 277
+      //   }
+      // ]
     },
     "polling": {
-      "hourDivided": [{
-          "key": "0-2",
-          "value": 58
-        },
-        {
-          "key": "10-12",
-          "value": 56
-        },
-        {
-          "key": "12-14",
-          "value": 29
-        },
-        {
-          "key": "16-18",
-          "value": 29
-        },
-        {
-          "key": "18-20",
-          "value": 29
-        },
-        {
-          "key": "22-24",
-          "value": 58
-        },
-        {
-          "key": "4-6",
-          "value": 58
-        },
-        {
-          "key": "6-8",
-          "value": 174
-        },
-        {
-          "key": "8-10",
-          "value": 87
-        }
-      ],
-      "count": 578,
-      "duration": 13.3
+      // "hourDivided": [{
+      //     "key": "0-2",
+      //     "value": 58
+      //   },
+      //   {
+      //     "key": "10-12",
+      //     "value": 56
+      //   },
+      //   {
+      //     "key": "12-14",
+      //     "value": 29
+      //   },
+      //   {
+      //     "key": "16-18",
+      //     "value": 29
+      //   },
+      //   {
+      //     "key": "18-20",
+      //     "value": 29
+      //   },
+      //   {
+      //     "key": "22-24",
+      //     "value": 58
+      //   },
+      //   {
+      //     "key": "4-6",
+      //     "value": 58
+      //   },
+      //   {
+      //     "key": "6-8",
+      //     "value": 174
+      //   },
+      //   {
+      //     "key": "8-10",
+      //     "value": 87
+      //   }
+      // ],
+      // "count": 578,
+      // "duration": 13.3
     }
   }
 
@@ -1450,7 +1450,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
 
       <Table 
         style={{ width: '100%', padding: '20px' }} 
-        scroll={{ x: 3000 }} 
+        scroll={{ x: this[Columns[selectedTable]] ? this[Columns[selectedTable]].reduce((pre, cur) => pre + cur.width, 0): 0 }} 
         rowSelection={isMetaCenter ? rowSelection : null} 
         columns={this[Columns[selectedTable]]} 
         dataSource={_.get(this.props[DataType[selectedTable]], 'data')} 

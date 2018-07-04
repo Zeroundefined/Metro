@@ -3,7 +3,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-import { Router, Route, browserHistory, IndexRoute, Redirect } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute, Redirect, IndexRedirect } from 'react-router';
 import { Login, Reports, Frame, Logs } from './pages';
 import { reducer as LoginReducer } from '../src/pages/Login/LoginRedux';
 import { reducer as ReportsReducer } from '../src/pages/Reports/ReportsRedux';
@@ -30,6 +30,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Frame} onEnter={handleRedirect}>
+        <IndexRedirect to="metaCenter" />
         <Route path="login" component={Login}/>
         <Route path="metaCenter" component={Reports} />
         <Route path="reports" component={Reports} />

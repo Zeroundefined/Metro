@@ -71,7 +71,7 @@ export class EquipCard extends React.Component<Props> {
     return <div style={{ marginBottom: 30}}>
     <Card className='equip-card' title='设备模块'>
     {
-      Object.keys(firstTypeCount).length ? 
+      firstTypeCount && Object.keys(firstTypeCount).length ? 
       handleConf().map((data, key) => {
         return <div style={{minWidth: '220px', width: '50%'}} key={key}>
             <ReactHighcharts config={data}/>

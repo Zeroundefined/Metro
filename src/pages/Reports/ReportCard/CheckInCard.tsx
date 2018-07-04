@@ -7,19 +7,21 @@ import { Divider } from 'antd';
 import {hoursList} from '../../../constant/tableConst';
 
 interface Props {
-  data: any
+  data: any,
+  timeRange: any
 }
 export class CheckInCard extends React.Component<Props> {
   render() {
     const {data, timeRange} = this.props;
     let fromDate = new Date(timeRange[0]).toLocaleDateString();
     let toDate = new Date(timeRange[1]).toLocaleDateString();
-    const { hourDivided, duration, count } = data;
+    let fromMonth = new Date(timeRange[0]).getMonth() + 1;
+    const { hourDivided, duration, count, informations } = data;
     let categories = [];
     let datas =[];
 
     hoursList.map(hour => {
-      let currentHour = hourDivided.find(item => item.key == hour);
+      let currentHour = hourDivided && hourDivided.find(item => item.key == hour);
       categories.push(`${hour}点`);
       datas.push(currentHour ? currentHour.value : 0)
     })
@@ -126,26 +128,33 @@ export class CheckInCard extends React.Component<Props> {
 
     return <div style={{marginBottom: 30}}>
       <Card className='equip-card' title='巡检信息'>
-        {hourDivided && hourDivided.length ?
-          <div style={{flex: 1}}><ReactHighcharts config={line} />
+        <div style={{ minWidth: '220px', width: '50%' }}>
+          {hourDivided && hourDivided.length ?
+            <ReactHighcharts config={line} />
+            :
+            <div style={{ textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无巡检信息</div>
+          }
+          {informations && informations.length ?
             <div style={{padding: '20px 40px'}}>
-            </div>
-          </div>:
-          <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无巡检信息</div>
-        }
-        {
-          duration !==null ? 
-          <div style={{ margin: '40px 0 0', textAlign: 'center', flex: 1, position: 'relative' }}>
-            <div className="frequent" style={{fontSize: '60px', color: '#3cc5d4'}}>{duration}</div>
-            <div className="text" style={{fontSize: '30px'}}>平均时长</div>
-            <div>今日移动巡检共 {count || 0} 起</div>
-          <div style={{position: 'absolute', bottom: '0', padding: '20px 40px'}}>
-            {fromDate}-{toDate}移动点巡检系统共计处理{count || 0}次点巡检作业，共计耗时{((count || 0)*(duration || 0)).toFixed(2)}分钟，平均每次巡检耗时{duration}分钟。
-          </div>
+              {fromMonth}月移动点巡检系统共计处理
+              {informations[0].polling_num}次点巡检作业，
+              共计耗时{(informations[0].polling_duration).toFixed(2)}分钟，
+              平均每次巡检耗时{informations[0].polling_avg_duration.toFixed(2)}分钟。
+            </div> : ''
+          }
         </div>
-          :
-          <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f'}}>暂无平均时长信息</div>
-        }
+        <div style={{ minWidth: '220px', width: '50%' }}>
+          {
+            duration !==null ? 
+            <div style={{ margin: '40px 0 0', textAlign: 'center'}}>
+              <div className="frequent" style={{fontSize: '60px', color: '#3cc5d4'}}>{duration}</div>
+              <div className="text" style={{fontSize: '30px'}}>平均时长</div>
+              <div>今日移动巡检共 {count || 0} 起</div>
+          </div>
+            :
+            <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f'}}>暂无平均时长信息</div>
+          }
+        </div> 
         
           
       </Card>

@@ -7,6 +7,7 @@ import {linesList, hoursList} from '../../../constant/tableConst';
 
 interface Props {
   data: any;
+  timeRange: any;
 }
 
 export class WorkingCard extends React.Component<Props> {
@@ -251,9 +252,10 @@ export class WorkingCard extends React.Component<Props> {
 
   render() {
     const { data, timeRange } = this.props;
-    const {reachRatio, hourRatio, updateRatio, illegal, hourDivided, workingActual} = data;
+    const {reachRatio, hourRatio, updateRatio, illegal, hourDivided, workingActual, lineDivided, informations} = data;
     let fromDate = new Date(timeRange[0]).toLocaleDateString();
     let toDate = new Date(timeRange[1]).toLocaleDateString();
+    let fromMonth = new Date(timeRange[0]).getMonth() + 1;
     let [LineDividedConfig, lineWorking] = this.handleLineDividedConfig();
     return <Card className='working-card' title='施工模块' style={{ marginBottom: 30}}>
       <div style={{minWidth: '220px', width: '50%'}}>
@@ -286,24 +288,32 @@ export class WorkingCard extends React.Component<Props> {
       </div>
 
       <div style={{minWidth: '220px', width: '50%'}}>
-        <ReactHighcharts config={LineDividedConfig} />
+        {lineDivided && lineDivided.length ?
+          <ReactHighcharts config={LineDividedConfig} /> :
+          <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工数量(路线)</div>
+        }
         <div style={{padding: '20px 40px'}}>各线路施工数{lineWorking}</div>   
       </div>
+
       <div style={{minWidth: '220px', width: '50%'}}>
         {hourDivided && hourDivided.length ?
           <div>
             <ReactHighcharts config={this.handleHourDividedConfig()} />
           </div> :
-          <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工数量</div>
+          <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工数量(时间)</div>
         }
-            <div style={{padding: '20px 40px'}}>
-              {fromDate}-{toDate}施工管理系统共办理{workingActual || 0}起施工
-              {/* ，其中日常巡检施工XX起，项目施工XX起，二级重大施工XX起 */}
-              。施工兑现率{reachRatio ? (reachRatio * 100).toFixed(2): 0}%，
-              工时利用率{hourRatio ? (hourRatio * 100).toFixed(2): 0}%，
-              实施规范率{hourRatio ? (hourRatio * 100).toFixed(2): 0}%，
-              计划变更率{updateRatio ? (updateRatio * 100).toFixed(2): 0}%。
-            </div>
+        {informations && informations.length ?
+          <div style={{padding: '20px 40px'}}>
+            {fromMonth}月施工管理系统共办理{informations[0].construction_num}起施工
+            ，其中日常巡检施工{informations[0].day_polling_num}起，
+            项目施工{informations[0].project_contruction_num}起，
+            二级重大施工{informations[0].a}起
+            。施工兑现率{(informations[0].b * 100).toFixed(2)}%，
+            工时利用率{(informations[0].c * 100).toFixed(2)}%，
+            实施规范率{(informations[0].d * 100).toFixed(2)}%，
+            计划变更率{(informations[0].e * 100).toFixed(2)}%。
+          </div> :''
+        }
       </div>
     </Card>
   }

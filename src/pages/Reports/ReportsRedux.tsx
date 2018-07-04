@@ -5,11 +5,28 @@ import { browserHistory } from 'react-router';
 const prefix = 'reports/';
 
 enum DataType {
-  'breakdown_facility_result' = 'faultData',
-  'construction_information_result' = 'workingData',
-  'facility_information_result' = 'equipData',
+  // 'breakdown_facility_result' = 'faultData',
+  // 'construction_information_result' = 'workingData',
+  // 'facility_information_result' = 'equipData',
+  // 'material_information_result' = 'materialData',
+  // 'polling_information_result' = 'checkInData',
   'material_information_result' = 'materialData',
-  'polling_information_result' = 'checkInData',
+  'polling_avg_duration_result' = 'pollingDurationData',
+  'polling_num_hour_result' = 'pollingHourData',
+  'polling_num_result' = 'pollingData',
+  'construction_cashing_rate_result' = 'constructionCashingData',
+  'construction_utilization_ratio_result' = 'constructionUtilizationData',
+  'construction_change_rate_result' = 'constructionChangeData',
+  'construction_irregularities_result' = 'constructionIrregularitiesData',
+  'construction_line_result' = 'constructionLineData',
+  'facility_class_sum_result' = 'facilityData',
+  'breakdown_facility_01_result' = 'breakdownFacility01Data',
+  'breakdown_facility_02_result' = 'breakdownFacility02Data',
+  'breakdown_type_ratio_result' = 'breakdownTypeData',
+  'breakdown_statu_result' = 'breakdownStatuData',
+  'breakdown_24h_sum_result' = 'breakdown24hSumData',
+  'breakdown_line_sum_result' = 'breakdownLineData',
+
   'breakdown_facility_origin' = 'originFaultData',
   'construction_information_origin' = 'originWorkingData',
   'facility_information_origin' = 'originEquipData',
@@ -177,11 +194,29 @@ const actions = {
 }
 
 class InitState {
+  // materialData: Response;
+  pollingDurationData: Response;
+  pollingHourData: Response;
+  pollingData: Response;
+  constructionCashingData: Response;
+  constructionUtilizationData: Response;
+  constructionChangeData: Response;
+  constructionIrregularitiesData: Response;
+  constructionLineData: Response;
+  facilityData: Response;
+  breakdownFacility01Data: Response;
+  breakdownFacility02Data: Response;
+  breakdownTypeData: Response;
+  breakdownStatuData: Response;
+  breakdown24hSumData: Response;
+  breakdownLineData: Response;
+
   faultData: Response;
   workingData: Response;
   equipData: Response;
   materialData: Response;
   checkInData: Response;
+
   resultTables: Response;
   calcData: Response;
   originTables: Response;
@@ -194,44 +229,102 @@ class InitState {
 
 const reducer = (state = new InitState(), action): InitState => {
   switch (action.type) {
-    case `${prefix}resultTables`: {
-      return {
-        ...state,
-        resultTables: action.payload
-      }
-    }
-
-    case `${prefix}originTables`: {
-      return {
-        ...state,
-        originTables: action.payload
-      }
-    }
-
-    case `${prefix}faultData`:
-      return {
-        ...state,
-        faultData: action.payload
-      }
-    case `${prefix}workingData`:
-      return {
-        ...state,
-        workingData: action.payload
-      }
-    case `${prefix}equipData`:
-      return {
-        ...state,
-        equipData: action.payload
-      }
-    case `${prefix}materialData`:
+    case `${prefix}materialData`: {
       return {
         ...state,
         materialData: action.payload
       }
-    case `${prefix}checkInData`:
+    }
+
+    case `${prefix}pollingDurationData`: {
       return {
         ...state,
-        checkInData: action.payload
+        pollingDurationData: action.payload
+      }
+    }
+
+    case `${prefix}pollingHourData`:
+      return {
+        ...state,
+        pollingHourData: action.payload
+      }
+
+    case `${prefix}pollingData`:
+      return {
+        ...state,
+        pollingData: action.payload
+      }
+
+    case `${prefix}constructionCashingData`:
+      return {
+        ...state,
+        constructionCashingData: action.payload
+      }
+
+    case `${prefix}constructionUtilizationData`:
+      return {
+        ...state,
+        constructionUtilizationData: action.payload
+      }
+
+    case `${prefix}constructionChangeData`:
+      return {
+        ...state,
+        constructionChangeData: action.payload
+      }
+
+    case `${prefix}constructionIrregularitiesData`:
+      return {
+        ...state,
+        constructionIrregularitiesData: action.payload
+      }
+
+    case `${prefix}constructionLineData`:
+      return {
+        ...state,
+        constructionLineData: action.payload
+      }
+
+    case `${prefix}facilityData`:
+      return {
+        ...state,
+        facilityData: action.payload
+      }
+
+    case `${prefix}breakdownFacility01Data`:
+      return {
+        ...state,
+        breakdownFacility01Data: action.payload
+      }
+    
+      case `${prefix}breakdownFacility02Data`:
+      return {
+        ...state,
+        breakdownFacility02Data: action.payload
+      }
+
+      case `${prefix}breakdownTypeData`:
+      return {
+        ...state,
+        breakdownTypeData: action.payload
+      }
+
+      case `${prefix}breakdownStatuData`:
+      return {
+        ...state,
+        breakdownStatuData: action.payload
+      }
+
+      case `${prefix}breakdown24hSumData`:
+      return {
+        ...state,
+        breakdown24hSumData: action.payload
+      }
+
+      case `${prefix}breakdownLineData`:
+      return {
+        ...state,
+        breakdownLineData: action.payload
       }
 
 
@@ -267,6 +360,20 @@ const reducer = (state = new InitState(), action): InitState => {
         calcData: action.payload
       }
     }
+
+    case `${prefix}resultTables`: {
+      return {
+        ...state,
+        resultTables: action.payload
+      }
+    }
+    case `${prefix}originTables`: {
+      return {
+        ...state,
+        originTables: action.payload
+      }
+    }
+    
     default:
       return state
   }

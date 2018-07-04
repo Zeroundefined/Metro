@@ -5,7 +5,8 @@ import {
 } from 'src/components';
 import {linesList, hoursList} from '../../../constant/tableConst';
 interface Props {
-  data: any
+  data: any,
+  timeRange: any
 }
 
 
@@ -253,10 +254,11 @@ export class FaultCard extends React.Component < Props > {
       data,
       timeRange
     } = this.props;
-    const { faultType, hourDivided, faultHandle, lineDivided} = data;
+    const { faultType, hourDivided, faultHandle, lineDivided, informations} = data;
     // let text = this.state.lineFault.join(',')
     let fromDate = new Date(timeRange[0]).toLocaleDateString();
     let toDate = new Date(timeRange[1]).toLocaleDateString();
+    let fromMonth = new Date(timeRange[0]).getMonth() + 1;
     let [config, lineFault] = this.handleLineFaultConfig();
     let [faultTypeConfig, faultTypeTotal, faultTypeText] = this.handleFaultPercentConfig();
     let [faultStatusConfig, faultStatusText] = this.handleFaultStatusConfig();
@@ -290,14 +292,21 @@ export class FaultCard extends React.Component < Props > {
             } /> :
             <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无故障处理状态</div>
           }
-          <div style={{padding: '20px 40px'}}>
-            {fromDate}-{toDate}故障接报系统共计接报{faultTypeTotal}起故障，
-            {/* 较去年同比增长（减少）XX%，较上月环比增长（减少）XX%，引起五分钟晚点X起，全年累计X起，全年累计X起，十五分钟晚点X起。 */}
-            其中{faultTypeText}
-            {/* 平均故障处置用时X小时X分钟， */}
-            故障修复率{faultStatusText}%。
-            {/* 闭环率XX%。 */}
-            </div>
+          {
+            informations && informations.length ?
+            <div style={{padding: '20px 40px'}}>
+              {fromMonth}月故障接报系统共计接报{informations[0].breakdown_num}起故障，
+              较去年同比增长（减少）{(informations[0].year_on_year*100).toFixed(2)}%，
+              较上月环比增长（减少）{(informations[0].month_on_month*100).toFixed(2)}%，
+              引起五分钟晚点{informations[0].five_late_num}起，
+              {/* 全年累计X起，全年累计X起， */}
+              十五分钟晚点{informations[0].fivth_late_num}起。
+              {faultTypeText && `其中${faultTypeText}`}
+              平均故障处置用时{informations[0].breakdown_avg.toFixed(2)}分钟，
+              故障修复率{(informations[0].breakdown_repair*100).toFixed(2)}%，
+               闭环率{(informations[0].closed_loop*100).toFixed(2)}%。 
+            </div> : ''
+          }
         </div>
         <div style={{ minWidth: '220px', width: '50%' }}>
           {
