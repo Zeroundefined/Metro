@@ -30,4 +30,12 @@
   .ant-modal-close {
     color: #ffffff;
   }
+  .modal-container{
+    position: relative;
+  }
+  .modal-select {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+  }
 }

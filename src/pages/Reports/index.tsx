@@ -11,7 +11,8 @@ import { DatePicker, Button, Table, Input, Modal, message, Select } from 'antd';
 import { actions, InitState, DataType } from './ReportsRedux';
 import { url } from '../../utils/http';
 import './Reports.scss';
-const { RangePicker } = DatePicker;
+import locale from 'antd/lib/date-picker/locale/zh_CN';
+const { RangePicker, MonthPicker } = DatePicker;
 const Option = Select.Option;
 const InputGroup = Input.Group;
 
@@ -28,7 +29,7 @@ enum Columns {
   'construction_cashing_rate_result' = 'resultConstructionCashingRateColumns',
   'construction_utilization_ratio_result' = 'resultConstructionUtilizationRateColumns',
   'construction_change_rate_result' = 'resultConstructionChangeRateColumns',
-  'construction_irregularities_result' = 'resultConstructionIrregularitiesColumns',
+  'construction_Irregularities_result' = 'resultConstructionIrregularitiesColumns',
   'construction_line_result' = 'resultConstructionLineColumns',
   'facility_class_sum_result' = 'resultFacilityClassSumColumns',
   'breakdown_facility_01_result' = 'resultBreakdownFacility01Columns',
@@ -37,40 +38,48 @@ enum Columns {
   'breakdown_statu_result' = 'resultBreakdownStatuColumns',
   'breakdown_24h_sum_result' = 'resultBreakdown24hSumColumns',
   'breakdown_line_sum_result' = 'resultBreakdownLineSumColumns',
+  'report_information_breakdown_result' = 'resultBreakdownReportColumns',
+  'report_information_construction_result' = 'resultConstructionReportColumns',
+  'report_information_polling_result' = 'resultPollingReportColumns',
 
   /** 元数据表字段*/
   'breakdown_facility_origin' = 'originFaultColumns',
   'construction_information_origin' = 'originWorkingColumns',
   'facility_information_origin' = 'originEquipColumns',
   'material_information_origin' = 'originMaterialColumns',
-  'polling_information_origin' = 'originCheckInColumns'
+  'polling_information_origin' = 'originCheckInColumns',
+  'position_information_gps_origin' = 'originGpsColumns',
 }
 
 enum TableDict {
   /** 结果表名*/
   'material_information_result' = '物资信息',
-  'polling_avg_duration_result' = '巡检信息--巡检时长',
-  'polling_num_hour_result' = '巡检信息--巡检次数--分时',
-  'polling_num_result' = '巡检信息--巡检次数',
-  'construction_cashing_rate_result' = '施工信息--施工计划兑现率',
-  'construction_utilization_ratio_result' = '施工信息--施工计划工时利用率',
-  'construction_change_rate_result' = '施工信息--施工计划变更率',
-  'construction_irregularities_result' = '施工信息--施工违规项',
-  'construction_line_result' = '施工信息--分线路施工数量',
+  'polling_avg_duration_result' = '巡检信息-巡检时长',
+  'polling_num_hour_result' = '巡检信息-巡检次数--分时',
+  'polling_num_result' = '巡检信息-巡检次数',
+  'construction_cashing_rate_result' = '施工信息-施工计划兑现率',
+  'construction_utilization_ratio_result' = '施工信息-施工计划工时利用率',
+  'construction_change_rate_result' = '施工信息-施工计划变更率',
+  'construction_irregularities_result' = '施工信息-施工违规项',
+  'construction_line_result' = '施工信息-分线路施工数量',
   'facility_class_sum_result' = '设备信息',
   'breakdown_facility_01_result' = '故障信息-晚点',
   'breakdown_facility_02_result' = '故障信息-道岔',
   'breakdown_type_ratio_result' = '故障信息-类型占比',
   'breakdown_statu_result' = '故障信息-处置状态',
-  'breakdown_24h_sum_result' = '故障信息—24小时故障',
-  'breakdown_line_sum_result' = '故障信息—分线路故障',
+  'breakdown_24h_sum_result' = '故障信息-24小时故障',
+  'breakdown_line_sum_result' = '故障信息-分线路故障',
+  'report_information_breakdown_result' = '故障信息-报表',
+  'report_information_construction_result' = '施工信息-报表',
+  'report_information_polling_result' = '巡检信息-报表',
 
   /** 元数据表名*/
   'breakdown_facility_origin' = '故障信息元数据表',
   'construction_information_origin' = '施工信息元数据表',
   'facility_information_origin' = '设备信息元数据表',
   'material_information_origin' = '物资信息元数据表',
-  'polling_information_origin' = '巡检信息元数据表'
+  'polling_information_origin' = '巡检信息元数据表',
+  'position_information_gps_origin' = 'GPS信息元数据表'
 } 
 
 const dateFormat = 'YYYY/MM/DD';
@@ -216,14 +225,14 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '计划起始时间',
       dataIndex: 'plan_start_time',
       key: 'plan_start_time',
-      width: 150,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_start_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_start_time')} style={{ cursor: 'pointer' }}>{text}</div>
+      width: 170,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_start_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_start_time')} style={{ cursor: 'pointer' }}>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
     }, {
       title: '计划终止时间',
       dataIndex: 'plan_end_time',
       key: 'plan_end_time',
-      width: 150,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_end_time')} style={{ cursor: 'pointer' }}>{text}</div>
+      width: 170,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'plan_end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'plan_end_time')} style={{ cursor: 'pointer' }}>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
     }, {
       title: '计划用时',
       dataIndex: 'plan_hour',
@@ -264,14 +273,14 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '实际开始时间',
       dataIndex: 'original_start_time',
       key: 'original_start_time',
-      width: 150,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'original_start_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'original_start_time')} style={{ cursor: 'pointer' }}>{text}</div>
+      width: 170,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'original_start_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'original_start_time')} style={{ cursor: 'pointer' }}>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
     }, {
       title: '实际结束时间',
       dataIndex: 'original_end_time',
       key: 'original_end_time',
-      width: 150,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'original_end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'original_end_time')} style={{ cursor: 'pointer' }}>{text}</div>
+      width: 170,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'original_end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'original_end_time')} style={{ cursor: 'pointer' }}>{moment(text).format('YYYY-MM-DD HH:mm:ss')}</div>
     }, {
       title: '实际用时',
       dataIndex: 'original_usetime',
@@ -434,14 +443,14 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     title: '入库时间',
     dataIndex: 'in_time',
     key: 'in_time',
-    width: 150,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'in_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'in_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    width: 170,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'in_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'in_time')} style={{ cursor: 'pointer' }}>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</div>
   }, {
     title: '领用时间',
     dataIndex: 'use_time',
     key: 'use_time',
-    width: 150,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'use_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'use_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    width: 170,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'use_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'use_time')} style={{ cursor: 'pointer' }}>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</div>
   }, {
     title: '物资属性',
     dataIndex: 'material_type',
@@ -473,14 +482,14 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     title: '开始时间',
     dataIndex: 'begin_time',
     key: 'begin_time',
-    width: 150,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'begin_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'begin_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    width: 170,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'begin_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'begin_time')} style={{ cursor: 'pointer' }}>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</div>
   }, {
     title: '结束时间',
     dataIndex: 'end_time',
     key: 'end_time',
-    width: 150,
-    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'end_time')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    width: 170,
+    render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'end_time') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'end_time')} style={{ cursor: 'pointer' }}>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</div>
   }, {
     title: '线路',
     dataIndex: 'line',
@@ -506,6 +515,46 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     width: 100,
     render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'duration') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'duration')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
   }];
+  originGpsColumns= [
+    {
+      title: '日期',
+      dataIndex: 'datelabel',
+      key: 'datelabel',
+      fixed: true,
+      render: text => text.slice(0, 10),
+      width: 150
+    }, 
+    {
+      title: '时间',
+      dataIndex: 'datetime',
+      key: 'datetime',
+      render: (text, record) => <span>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>,
+      width: 170
+    }, {
+      title: '经度',
+      dataIndex: 'lon',
+      key: 'lon',
+      width: 170,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'lon') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'lon')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '纬度',
+      dataIndex: 'lat',
+      key: 'lat',
+      width: 170,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'lat') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'lat')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '设备号',
+      dataIndex: 'number',
+      key: 'number',
+      width: 170,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'number') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'number')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }, {
+      title: '姓名',
+      dataIndex: 'name',
+      key: 'name',
+      width: 100,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'name') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'name')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+    }];
 
   /** 结果表字段 */
   resultMaterialColumns = [
@@ -513,6 +562,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -540,6 +590,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -560,6 +611,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     {
       title: '日期',
       dataIndex: 'datelabel',
+      render: text => text.slice(0, 10),
       key: 'datelabel',
       fixed: true,
       width: 200,
@@ -588,6 +640,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -608,6 +661,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     {
       title: '日期',
       dataIndex: 'datelabel',
+      render: text => text.slice(0, 10),
       key: 'datelabel',
       fixed: true,
       width: 200,
@@ -630,6 +684,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -645,8 +700,9 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '数量',
       dataIndex: 'number',
@@ -660,6 +716,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -675,6 +732,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -701,6 +759,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     {
       title: '日期',
       dataIndex: 'datelabel',
+      render: text => text.slice(0, 10),
       key: 'datelabel',
       fixed: true,
       width: 200,
@@ -735,8 +794,9 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '数量',
       dataIndex: 'num',
@@ -750,6 +810,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -757,7 +818,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'num',
       key: 'num',
       width: 150,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text}</div>
     }
   ]
   resultBreakdownTypeRatioColumns = [
@@ -765,8 +826,9 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
-      width: 150,
+      width: 200,
     }, {
       title: '类型',
       dataIndex: 'type',
@@ -778,7 +840,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       dataIndex: 'num',
       key: 'num',
       width: 150,
-      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text}</div>
     }
   ]
   resultBreakdownStatuColumns = [
@@ -786,6 +848,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -807,6 +870,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -828,6 +892,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       title: '日期',
       dataIndex: 'datelabel',
       key: 'datelabel',
+      render: text => text.slice(0, 10),
       fixed: true,
       width: 200,
     }, {
@@ -843,7 +908,169 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
       width: 150,
       render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'num')} style={{ cursor: 'pointer' }}>{text || '-'}</div>
     }
-  ]
+  ];
+  resultBreakdownReportColumns = [
+    {
+      title: '日期',
+      dataIndex: 'month',
+      render: (text, record) => <span>{text ? moment(text).format('YYYY-MM') : '-'}</span>,
+      key: 'month',
+      fixed: true,
+      width: 200,
+    }, {
+      title: '故障次数',
+      dataIndex: 'breakdown_num',
+      key: 'breakdown_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'breakdown_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'breakdown_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '同比',
+      dataIndex: 'year_on_year',
+      key: 'year_on_year',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'year_on_year') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'year_on_year')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '环比',
+      dataIndex: 'month_on_month',
+      key: 'month_on_month',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'month_on_month') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'month_on_month')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '五分钟晚点',
+      dataIndex: 'five_late_num',
+      key: 'five_late_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'five_late_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'five_late_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '十五分钟晚点',
+      dataIndex: 'fivth_late_num',
+      key: 'fivth_late_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'fivth_late_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'fivth_late_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '信号专业故障',
+      dataIndex: 'breakdown_xh_num',
+      key: 'breakdown_xh_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'breakdown_xh_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'breakdown_xh_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '通讯专业故障',
+      dataIndex: 'breakdown_tx_num',
+      key: 'breakdown_tx_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'breakdown_tx_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'breakdown_tx_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '信息专业故障',
+      dataIndex: 'breakdown_xx_num',
+      key: 'breakdown_xx_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'breakdown_xx_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'breakdown_xx_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '处置故障平均用时',
+      dataIndex: 'breakdown_avg',
+      key: 'breakdown_avg',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'breakdown_avg') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'breakdown_avg')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '故障修复率',
+      dataIndex: 'breakdown_repair',
+      key: 'breakdown_repair',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'breakdown_repair') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'breakdown_repair')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '闭环',
+      dataIndex: 'closed_loop',
+      key: 'closed_loop',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'closed_loop') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'year_on_year')} style={{ cursor: 'pointer' }}>{text}</div>
+    }
+  ];
+  resultConstructionReportColumns = [
+    {
+      title: '日期',
+      dataIndex: 'month',
+      render: (text, record) => <span>{text ? moment(text).format('YYYY-MM') : '-'}</span>,
+      key: 'month',
+      fixed: true,
+      width: 200,
+    }, {
+      title: '施工次数',
+      dataIndex: 'construction_num',
+      key: 'construction_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'construction_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'construction_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '日常巡检施工次数',
+      dataIndex: 'day_polling_num',
+      key: 'day_polling_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'day_polling_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'day_polling_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '项目施工次数',
+      dataIndex: 'project_contruction_num',
+      key: 'project_contruction_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'project_contruction_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'project_contruction_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '二级重大施工次数',
+      dataIndex: 'a',
+      key: 'a',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'a') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'a')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '施工兑现率',
+      dataIndex: 'b',
+      key: 'b',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'b') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'b')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '工时利用率',
+      dataIndex: 'c',
+      key: 'c',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'c') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'c')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '实施规范率',
+      dataIndex: 'd',
+      key: 'd',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'd') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'd')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '计划变更率',
+      dataIndex: 'e',
+      key: 'e',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'e') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'day_polling_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }
+  ];
+  resultPollingReportColumns = [
+    {
+      title: '日期',
+      dataIndex: 'month',
+      key: 'month',
+      render: (text, record) => <span>{text ? moment(text).format('YYYY-MM') : '-'}</span>,
+      fixed: true,
+      width: 200,
+    }, {
+      title: '巡检次数',
+      dataIndex: 'polling_num',
+      key: 'polling_num',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'polling_num') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'polling_num')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '巡检时长',
+      dataIndex: 'polling_duration',
+      key: 'polling_duration',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'polling_duration') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'polling_duration')} style={{ cursor: 'pointer' }}>{text}</div>
+    }, {
+      title: '平均巡检时长',
+      dataIndex: 'polling_avg_duration',
+      key: 'polling_avg_duration',
+      width: 150,
+      render: (text, record) => (this.state.editingItem.id === record.id && this.state.editingItem.field === 'polling_avg_duration') ? <Input style={{ height: 22 }} defaultValue={text} onKeyDown={this.handleUpdate} /> : <div onDoubleClick={this.handleCellDBLClick.bind(this, record, 'polling_avg_duration')} style={{ cursor: 'pointer' }}>{text}</div>
+    }
+  ];
 
   state = {
     review: false,
@@ -1284,8 +1511,9 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         selectedTable: data.data[0],
         searchedField: _.reject(this[Columns[data.data[0]]], { key: 'datelabel' })[0].key
       })
+      
       data.data.forEach(table => {
-        getData(table, timeRange, this[Columns[data.data[0]]][0].key, keyword);
+        Columns[table] && getData(table, timeRange, this[Columns[table]][0].key, keyword);
       })
     });
   }
@@ -1329,14 +1557,19 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     }
   }
 
-  openReview = () => {
+  openReview = (date) => {
     const { getCalcData } = this.props;
-    const { timeRange } = this.state;
+    // const { timeRange } = this.state;
     this.setState({
       review: true
     })
-    getCalcData(timeRange)
+    getCalcData(date)
     /** 获取计算数据 */
+  }
+
+  changeMonth = (date, dateString) => {
+    // let month = new Date(date).getMonth() + 1;
+    this.openReview(date);
   }
 
   closeReview = () => {
@@ -1407,6 +1640,8 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     })
   }
 
+  
+
   // componentWillReceiveProps(nextProps) {
   //   if(nextProps.calcData && nextProps.calcData.data) {
   //     // this.setState({...nextProps.calcData.data});
@@ -1445,7 +1680,7 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
           <Input style={{ width: 200 }} value={keyword} onChange={this.changeKeyword} />
           <Button onClick={this.handleSearch}>查找</Button>
         </InputGroup>
-        {!isMetaCenter && <Button className="screenshot" type='primary' style={{ float: 'right' }} onClick={this.openReview}>预览</Button>}
+        {!isMetaCenter && <Button className="screenshot" type='primary' style={{ float: 'right' }} onClick={() => this.openReview(timeRange[0])}>预览</Button>}
       </div>
 
       <Table 
@@ -1466,26 +1701,37 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
         cancelText='取消'
         className='reports-review-modal'
       >
-        <div className='reports-review' style={{ 
-          padding: 30,
-          color: '#ffffff',
-          background:'#030b1e'
-          // display: 'flex', 
-          // justifyContent: 'space-between' 
-        }}>
-          {/*<div className='left-part' style={{ width: 550 }}>*/}
-            <EquipCard data={this.state.equip || {}} />
-            <MaterialCard data={this.state.material || {}}/>
-            <CheckInCard data={this.state.polling || {}} timeRange={timeRange} />
-          {/*</div>*/}
-          {/*<div className='right-part' style={{ width: 550 }}>*/}
-            {<WorkingCard data={this.state.working || {}} timeRange={timeRange} />}
-            {<FaultCard 
-              data = {this.state.fault || {}}
-              timeRange={timeRange}
-              // data={_.get(faultData, 'data')} 
-              />}
-          {/*</div>*/}
+        <div className="modal-container">
+          <MonthPicker 
+            placeholder="请选择月份" 
+            onChange={this.changeMonth}
+            defaultValue={timeRange[0]} 
+            className="modal-select"
+            locale={locale}
+            getCalendarContainer={() => document.querySelector(".modal-select") }
+          />
+          <div className='reports-review' style={{ 
+            padding: 30,
+            color: '#ffffff',
+            background:'#030b1e'
+            // display: 'flex', 
+            // justifyContent: 'space-between' 
+          }}>
+            {/*<div className='left-part' style={{ width: 550 }}>*/}
+              <EquipCard data={this.state.equip || {}} />
+              <MaterialCard data={this.state.material || {}}/>
+              <CheckInCard data={this.state.polling || {}} timeRange={timeRange} />
+            {/*</div>*/}
+            {/*<div className='right-part' style={{ width: 550 }}>*/}
+              {<WorkingCard data={this.state.working || {}} timeRange={timeRange} />}
+              {<FaultCard 
+                data = {this.state.fault || {}}
+                timeRange={timeRange}
+                // data={_.get(faultData, 'data')} 
+                />}
+            {/*</div>*/}
+          </div>
+
         </div>
       </Modal>
     </div>

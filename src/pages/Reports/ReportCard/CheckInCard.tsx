@@ -7,11 +7,7 @@ import { Divider } from 'antd';
 import {hoursList} from '../../../constant/tableConst';
 
 interface Props {
-<<<<<<< HEAD
-  data: any,
-=======
   data: any
->>>>>>> 685cb8a84e94b05eff3b7981cd14ec618b04dbe9
   timeRange: any
 }
 export class CheckInCard extends React.Component<Props> {
