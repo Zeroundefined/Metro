@@ -51,7 +51,7 @@ export class MaterialCard extends React.Component<Props> {
           name: '市场份额',
           data: materials
         }],
-        colors: ['#E09343', '#55F4F0', '#53BFFD']
+        colors: ['#E09343', '#55F4F0', '#53BFFD', '#03795F', '#E794BF', '#9A52A4', '#7DC8E8']
       })
     })
     return conf;

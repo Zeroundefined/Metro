@@ -13,9 +13,7 @@ interface Props {
 export class CheckInCard extends React.Component<Props> {
   render() {
     const {data, timeRange} = this.props;
-    let fromDate = new Date(timeRange[0]).toLocaleDateString();
-    let toDate = new Date(timeRange[1]).toLocaleDateString();
-    let fromMonth = new Date(timeRange[0]).getMonth() + 1;
+    let fromMonth = new Date(timeRange).getMonth() + 1;
     const { hourDivided, duration, count, informations } = data;
     let categories = [];
     let datas =[];

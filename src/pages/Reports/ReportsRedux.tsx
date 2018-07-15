@@ -17,7 +17,7 @@ enum DataType {
   'construction_cashing_rate_result' = 'constructionCashingData',
   'construction_utilization_ratio_result' = 'constructionUtilizationData',
   'construction_change_rate_result' = 'constructionChangeData',
-  'construction_irregularities_result' = 'constructionIrregularitiesData',
+  'construction_Irregularities_result' = 'constructionIrregularitiesData',
   'construction_line_result' = 'constructionLineData',
   'facility_class_sum_result' = 'facilityData',
   'breakdown_facility_01_result' = 'breakdownFacility01Data',
@@ -147,6 +147,10 @@ const getCalcData = (date) => {
   let fromDate = `${searchDate.getFullYear()}/${searchDate.getMonth()+1}/1`;
   let toDate = `${searchDate.getFullYear()}/${searchDate.getMonth()+1}/31`;
   return (dispatch) => {
+    dispatch({
+      type: `${prefix}CalcData`,
+      modalSpinning: true
+    })
     // return fetch(`${url}/getCalcData?timeRange=${[new Date(timeRange[0]).toLocaleDateString(), new Date(timeRange[1]).toLocaleDateString()]}`, {
     return fetch(`${url}/getCalcData?timeRange=${[fromDate, toDate]}`, {
       credentials: "include",
@@ -156,7 +160,8 @@ const getCalcData = (date) => {
     }).then((res) => res.json()).then(data => {
       dispatch({
         type: `${prefix}CalcData`,
-        payload: data
+        payload: data,
+        modalSpinning: false
       })
 
       if (data.errMsg) {
@@ -234,6 +239,7 @@ class InitState {
 
   resultTables: Response;
   calcData: Response;
+  modalSpinning: Response;
   originTables: Response;
   originFaultData: Response;
   originWorkingData: Response;
@@ -396,7 +402,8 @@ const reducer = (state = new InitState(), action): InitState => {
     case `${prefix}CalcData`: {
       return {
         ...state,
-        calcData: action.payload
+        calcData: action.payload,
+        modalSpinning: action.modalSpinning
       }
     }
 

@@ -27,6 +27,9 @@ export class WorkingCard extends React.Component<Props> {
           color: '#ffffff'
         }
       },
+      tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
       colors: ['#40a9ff', 'rgba(0,0,0,0.05)'],
       series: [{
         type: 'pie',
@@ -69,8 +72,12 @@ export class WorkingCard extends React.Component<Props> {
           color: '#ffffff'
         }
       },
+      tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
       colors: ['#40a9ff', 'rgba(0,0,0,0.05)'],
       series: [{
+        name: '比例',
         type: 'pie',
         data: [
           {
@@ -193,6 +200,7 @@ export class WorkingCard extends React.Component<Props> {
       },
       series: [{
         data: list,
+        name: '路线'
       }],
       colors: ['#CE0000', '#8BCB1F', '#FECD06', '#502E84', '#9A52A4', '#E80378', '#F66F15', '#089BDE', '#7DC8E8', '#B1A0C4', '#8E162F', '#03795F', '#E794BF', '#89CFBD', '#BB786F']
     }, lineWorking.join('， ')]
@@ -242,7 +250,8 @@ export class WorkingCard extends React.Component<Props> {
         }
       },
       series: [{
-        data: datas
+        data: datas,
+        name: '时间'
       }],
       colors: ['#f5ab24']
     }
@@ -253,9 +262,7 @@ export class WorkingCard extends React.Component<Props> {
   render() {
     const { data, timeRange } = this.props;
     const {reachRatio, hourRatio, updateRatio, illegal, hourDivided, workingActual, lineDivided, informations} = data;
-    let fromDate = new Date(timeRange[0]).toLocaleDateString();
-    let toDate = new Date(timeRange[1]).toLocaleDateString();
-    let fromMonth = new Date(timeRange[0]).getMonth() + 1;
+    let fromMonth = new Date(timeRange).getMonth() + 1;
     let [LineDividedConfig, lineWorking] = this.handleLineDividedConfig();
     return <Card className='working-card' title='施工模块' style={{ marginBottom: 30}}>
       <div style={{minWidth: '220px', width: '50%'}}>
@@ -292,7 +299,10 @@ export class WorkingCard extends React.Component<Props> {
           <ReactHighcharts config={LineDividedConfig} /> :
           <div style={{textAlign: 'center', margin: '50px 0', color: '#827f7f' }}>暂无施工数量(路线)</div>
         }
-        <div style={{padding: '20px 40px'}}>各线路施工数{lineWorking}</div>   
+        {
+          lineWorking ?
+          <div style={{padding: '20px 40px'}}>各线路施工数{lineWorking}</div> : ''  
+        }
       </div>
 
       <div style={{minWidth: '220px', width: '50%'}}>

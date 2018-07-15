@@ -256,9 +256,7 @@ export class FaultCard extends React.Component < Props > {
     } = this.props;
     const { faultType, hourDivided, faultHandle, lineDivided, informations} = data;
     // let text = this.state.lineFault.join(',')
-    let fromDate = new Date(timeRange[0]).toLocaleDateString();
-    let toDate = new Date(timeRange[1]).toLocaleDateString();
-    let fromMonth = new Date(timeRange[0]).getMonth() + 1;
+    let fromMonth = new Date(timeRange).getMonth() + 1;
     let [config, lineFault] = this.handleLineFaultConfig();
     let [faultTypeConfig, faultTypeTotal, faultTypeText] = this.handleFaultPercentConfig();
     let [faultStatusConfig, faultStatusText] = this.handleFaultStatusConfig();
@@ -314,7 +312,9 @@ export class FaultCard extends React.Component < Props > {
             <ReactHighcharts config={config} />:
             <div style={{flex: 1, textAlign: 'center', margin: '50px 0', color: '#827f7f' }}> 暂无各线路故障情况</div>
           }
-          <div style={{padding: '20px 40px'}}>各线路故障数：{lineFault}。</div>
+          {lineFault ?
+            <div style={{padding: '20px 40px'}}>各线路故障数：{lineFault}。</div> : ''
+          }
         </div>
       </Card>
 

@@ -6,6 +6,63 @@
       margin-left: auto;
     }
   }
+  .reports-table {
+    
+    i {
+      color: #1890ff;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .table-input-cell {
+      i {
+        width: 20%;
+        margin-left: 10%;
+      }
+    }
+    .table-cell {
+      // padding: 5px 12px;
+      // cursor: pointer;
+      // &:hover {
+      //   border: 1px solid #d9d9d9;
+      //   border-radius: 4px;
+      //   padding: 4px 11px;
+      // }
+      cursor: pointer;
+      position: relative;
+      i{
+        display: none;
+      }
+      &:hover{
+        i {
+          display: inline-block;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+
+        }
+        .table-cell-text {
+          margin-left: 20px;
+        }
+      }
+      .table-cell-text {
+        display: inline-block;
+        transition: all .2s;
+      }
+      
+      .overflow-text {
+        overflow:hidden; 
+        text-overflow:ellipsis;
+        display:-webkit-box; 
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:2;
+        // &:hover {
+        //   display:inline-block;
+        //   overflow: auto; 
+        // }
+      }
+    }
+  }
 
   .ant-table-wrapper {
     background-color: #fff;
@@ -36,6 +93,6 @@
   .modal-select {
     position: absolute;
     right: 30px;
-    top: 10px;
+    top: 10px;  
   }
 }
