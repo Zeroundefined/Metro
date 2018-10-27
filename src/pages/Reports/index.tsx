@@ -32,7 +32,7 @@ enum Columns {
   'construction_cashing_rate_result' = 'resultConstructionCashingRateColumns',
   'construction_utilization_ratio_result' = 'resultConstructionUtilizationRateColumns',
   'construction_change_rate_result' = 'resultConstructionChangeRateColumns',
-  'construction_Irregularities_result' = 'resultConstructionIrregularitiesColumns',
+  'construction_irregularities_result' = 'resultConstructionIrregularitiesColumns',
   'construction_line_result' = 'resultConstructionLineColumns',
   'facility_class_sum_result' = 'resultFacilityClassSumColumns',
   'breakdown_facility_01_result' = 'resultBreakdownFacility01Columns',
@@ -63,7 +63,7 @@ enum TableDict {
   'construction_cashing_rate_result' = '施工信息-施工计划兑现率',
   'construction_utilization_ratio_result' = '施工信息-施工计划工时利用率',
   'construction_change_rate_result' = '施工信息-施工计划变更率',
-  'construction_Irregularities_result' = '施工信息-施工违规项',
+  'construction_irregularities_result' = '施工信息-施工违规项',
   'construction_line_result' = '施工信息-分线路施工数量',
   'facility_class_sum_result' = '设备信息',
   'breakdown_facility_01_result' = '故障信息-晚点',
@@ -101,7 +101,8 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     title: '发生时分',
     dataIndex: 'time',
     key: 'time',
-    width: 150
+    width: 150,
+    render: (text, record) => <div>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''}</div>
   }, {
     title: '故障序号',
     dataIndex: 'fault_sequence',
@@ -1684,7 +1685,10 @@ class Reports extends React.Component<RouteComponentProps<any, any> & typeof act
     const { resultTables, originTables ,location: { pathname } } = this.props;
     const isMetaCenter = pathname.indexOf('metaCenter') > 0;
     const tables  = isMetaCenter ? originTables : resultTables;
-    return (_.get(tables, 'data') || []).map(table => <Option key={table}>{TableDict[table]}</Option>)
+    return (_.get(tables, 'data') || []).map(table => {
+      let value = TableDict[table];
+      return value ? <Option key={table} title={value}>{value}</Option> : ''
+    })
   }
 
   renderOptions() {
